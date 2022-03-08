@@ -1,0 +1,251 @@
+---
+title: "DON model"
+author: "Dr. Weihsueh Chiu, En-Hsuan Lu"
+date: "2022/2/1"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(coda)
+library(bayesplot) 
+library(ggplot2)
+library(tidyverse)
+library(reshape2)
+library(here)
+library(GGally)
+library(ggpubr)
+library(psych)
+knitr::opts_chunk$set(echo=FALSE,warning=FALSE,message=FALSE,error=FALSE, results='hide',fig.keep='all')
+
+calibplotfolder <- "Calibration Plots"
+```
+
+## read data for plots
+```{r readfiles}
+ID.calib <- read_csv(file.path("DON-data",
+                               "individual urine quantity_LODdevidedby2.csv"), T,"")
+ID.calib$Simulation <- as.numeric(factor(ID.calib$ID))
+```
+
+## McSim
+
+```{r MCSim}
+mdir <- "MCSim"
+source(here::here(mdir,"setup_MCSim.R"))
+#set_PATH() # For Windows
+# Make mod.exe (used to create mcsim executable from model file)
+makemod()
+```
+
+## Model calibration
+
+```{r Model calibration}
+set.seed(1234)
+model_file<- "DON-model.model.r"
+makemcsim(model_file)
+in_file_test <- "DON-model-calib.in.R" 
+# Run model
+out_file <- ""
+chains <- list()
+checks <- data.frame()
+samps <- data.frame()
+samps.mcmc <- list()
+
+for (chainnum in 1:4) {
+  outtest.list <- mcsim(model_file=model_file, in_file=in_file_test, chainnum=chainnum)
+  print("Chain: "); print(chainnum)
+  outcheck <- outtest.list$df_check
+  outchain <- outtest.list$df_out
+  # Only save second half (after burn-in)
+  outsamp <- outchain[floor(nrow(outchain) / 2):nrow(outchain), -1]
+  chains <- c(chains, list(as.matrix(outchain)))
+  checks <- rbind(checks, outcheck)
+  samps <- rbind(samps, outsamp)
+  samps.mcmc <- c(samps.mcmc, list(mcmc(outsamp)))
+}
+
+# One random sample, random iteration "checks" from last row of chain 4
+checksplot <- ggplot(subset(checks,Output_Var %in% c("Qu_d15g_out", "Qu_don_out", "Qu_d3g_out")))+
+  geom_point(aes(x=Data, y=Prediction, color=Output_Var))+
+  scale_x_log10()+
+  scale_y_log10()+
+  geom_abline(slope = 1,intercept = 0)+
+  facet_wrap(~Simulation)
+print(checksplot)
+ggsave(file.path(calibplotfolder,"checksplot_model.calib.pdf"), plot = checksplot, width=10, height=10)
+
+checksplotlast <- ggplot(subset(checks,Output_Var %in% c("Qu_d15g_out", "Qu_don_out", "Qu_d3g_out") & Time > 20))+
+  geom_point(aes(x=Data, y=Prediction, color=Output_Var))+
+  scale_x_log10()+
+  scale_y_log10()+
+  geom_abline(slope = 1,intercept = 0)+
+  facet_wrap(~Output_Var,nrow=1)
+print(checksplotlast)
+ggsave(file.path(calibplotfolder,"checksplot_model.calib-last.pdf"), plot = checksplotlast, width=9, height=3.5)
+
+samps.mcmclist <- as.mcmc.list(samps.mcmc)
+save(samps.mcmclist, file = "mcmc_model.calib.Rdata")
+# Contains monte carlo sampling for each parameter
+
+#multicheck
+multicheck <- mcsim.multicheck(model_file=model_file,
+                                 in_file=in_file_test, nsamp = 500)
+save(multicheck, file="multicheck_model.calib.Rdata")
+```
+
+```{r parameters}
+
+rhat <- gelman.diag(samps.mcmclist,autoburnin=FALSE) 
+M_indx <- grep("M_",names(samps))
+SD_indx <- grep("SD_",names(samps))
+Ln_indx <- grep("Ln",names(samps))
+
+rhat.df <- as.data.frame(rhat$psrf)
+rhat.df$par <- factor(rownames(rhat.df),
+                      levels=rev(rownames(rhat.df)))
+rhatplot <- ggplot(rhat.df)+geom_bar(aes(x=par,y=`Point est.`),stat="identity")+
+  coord_flip()+geom_hline(yintercept=1)+
+  theme(axis.text.y = element_text(size = 5))
+
+pdf("DiagnosticPlots_model.calib.pdf",height=8,width=8)
+pairs.panels(samps[,M_indx])
+plot(as.mcmc.list(samps.mcmc)[,M_indx,])
+plot(as.mcmc.list(samps.mcmc)[,SD_indx,])
+plot(as.mcmc.list(samps.mcmc)[,Ln_indx,])
+parmnames <- gsub("M_","",names(samps)[M_indx])
+for (i in 1:length(parmnames)) {
+  iparmnames <- paste0(parmnames[i],1:16,".")
+  tmp.samps <- samps[,names(samps) %in% iparmnames]
+  tmp.M <- samps[,rep(paste0("M_",parmnames[i]),16)]
+  tmp.SD <- samps[,rep(paste0("SD_",parmnames[i]),16)]
+  tmp.samps <- exp(tmp.samps*tmp.SD + tmp.M)
+  tmp.df <- pivot_longer(tmp.samps,1:16)
+  tmp.df$name <- factor(tmp.df$name,levels=rev(iparmnames))
+  p<-ggplot(tmp.df)+geom_boxplot(aes(x=value,y=name))+
+    scale_x_log10()+annotation_logticks(sides="b")
+  print(p)
+}
+print(rhatplot)
+dev.off()
+
+
+```
+
+
+```{r time course - calibration}
+df_check <- multicheck$df_check
+
+#DON
+calib05_don <-aggregate(Prediction ~ Simulation + Time,
+                        data=subset(df_check,Output_Var=="Qu_don"),
+                        FUN=quantile,prob=0.05)
+calib50_don <-aggregate(Prediction ~ Simulation + Time,
+                        data=subset(df_check,Output_Var=="Qu_don"),
+                        FUN=quantile,prob=0.5)
+calib95_don <-aggregate(Prediction ~ Simulation + Time,
+                        data=subset(df_check,Output_Var=="Qu_don"),
+                        FUN=quantile,prob=0.95)
+prediction_calib_don <- ggplot() + 
+  geom_point(aes(x=`Time (hr)`,y=`DON (nmol)`), shape=16, data=ID.calib)+
+  geom_line(aes(x=Time,y=Prediction),data=calib50_don)+
+  geom_line(aes(x=Time,y=Prediction),data=calib05_don,linetype="dotdash")+
+  geom_line(aes(x=Time,y=Prediction),data=calib95_don,linetype="dotdash")+
+  ggtitle("DON")+
+  facet_wrap(~Simulation)
+print(prediction_calib_don)
+print(prediction_calib_don+scale_y_log10()+
+  annotation_logticks(side="l")+
+    coord_cartesian(ylim=c(1e-2,NA))
+)
+#d3g
+calib05_d3g <-aggregate(Prediction ~ Simulation + Time,
+                        data=subset(df_check,Output_Var=="Qu_d3g"),
+                        FUN=quantile,prob=0.05)
+calib50_d3g <-aggregate(Prediction ~ Simulation + Time,
+                        data=subset(df_check,Output_Var=="Qu_d3g"),
+                        FUN=quantile,prob=0.5)
+calib95_d3g <-aggregate(Prediction ~ Simulation + Time,
+                        data=subset(df_check,Output_Var=="Qu_d3g"),
+                        FUN=quantile,prob=0.95)
+prediction_calib_d3g <- ggplot() + 
+  geom_point(aes(x=`Time (hr)`,y=`DON-3-GlcA (nmol)`), shape=16, data=ID.calib)+
+  geom_line(aes(x=Time,y=Prediction),data=calib50_d3g)+
+  geom_line(aes(x=Time,y=Prediction),data=calib05_d3g,linetype="dotdash")+
+  geom_line(aes(x=Time,y=Prediction),data=calib95_d3g,linetype="dotdash")+
+  ggtitle("DON-3-glucuronide")+
+  facet_wrap(~Simulation)
+print(prediction_calib_d3g)
+print(prediction_calib_d3g+scale_y_log10()+
+  annotation_logticks(side="l")+
+    coord_cartesian(ylim=c(1e-2,NA))
+)
+#d15g
+calib05_d15g <-aggregate(Prediction ~ Simulation + Time,
+                         data=subset(df_check,Output_Var=="Qu_d15g"),
+                         FUN=quantile,prob=0.05)
+calib50_d15g <-aggregate(Prediction ~ Simulation + Time,
+                         data=subset(df_check,Output_Var=="Qu_d15g"),
+                         FUN=quantile,prob=0.5)
+calib95_d15g <-aggregate(Prediction ~ Simulation + Time,
+                         data=subset(df_check,Output_Var=="Qu_d15g"),
+                         FUN=quantile,prob=0.95)
+prediction_calib_d15g <- ggplot() + 
+  geom_point(aes(x=`Time (hr)`,y=`DON-15-GlcA (nmol)`), shape=16, data=ID.calib)+
+  geom_line(aes(x=Time,y=Prediction),data=calib50_d15g)+
+  geom_line(aes(x=Time,y=Prediction),data=calib05_d15g,linetype="dotdash")+
+  geom_line(aes(x=Time,y=Prediction),data=calib95_d15g,linetype="dotdash")+
+  ggtitle("DON-15-glucuronide")+
+  facet_wrap(~Simulation)
+print(prediction_calib_d15g)
+print(prediction_calib_d15g+scale_y_log10()+
+  annotation_logticks(side="l")+
+    coord_cartesian(ylim=c(1e-2,NA))
+)
+
+
+combine.prediction_calib <- ggarrange(prediction_calib_don, 
+                                prediction_calib_d3g, 
+                                prediction_calib_d15g,
+                                  ncol = 1, nrow = 3,
+                                  common.legend = TRUE, legend="right")
+print(combine.prediction_calib)
+ggsave(file.path(calibplotfolder,"combine.prediction_model.calib-tot.pdf"), plot = combine.prediction_calib, width=10, height=15)
+
+combine.prediction_calib_log <- ggarrange(prediction_calib_don+scale_y_log10()+
+  annotation_logticks(side="l")+
+    coord_cartesian(ylim=c(1e-2,NA)), 
+                                prediction_calib_d3g+scale_y_log10()+
+  annotation_logticks(side="l")+
+    coord_cartesian(ylim=c(1e-2,NA)), 
+                                prediction_calib_d15g+scale_y_log10()+
+  annotation_logticks(side="l")+
+    coord_cartesian(ylim=c(1e-2,NA)),
+                                  ncol = 1, nrow = 3,
+                                  common.legend = TRUE, legend="right")
+print(combine.prediction_calib_log)
+ggsave(file.path(calibplotfolder,"combine.prediction_log_model.calib-tot.pdf"), plot = combine.prediction_calib_log, width=10, height=15)
+
+
+alldon.prediction_calib<-ggplot() + 
+  geom_point(aes(x=`Time (hr)`,y=`DON (nmol)`,color="DON"), shape=16, data=ID.calib)+
+  geom_line(aes(x=Time,y=Prediction,color="DON"),data=calib50_don)+
+  geom_point(aes(x=`Time (hr)`,y=`DON-3-GlcA (nmol)`,color="DON-3G"), shape=16, data=ID.calib)+
+  geom_line(aes(x=Time,y=Prediction,color="DON-3G"),data=calib50_d3g)+
+  geom_point(aes(x=`Time (hr)`,y=`DON-15-GlcA (nmol)`,color="DON-15G"), shape=16, data=ID.calib)+
+  geom_line(aes(x=Time,y=Prediction,color="DON-15G"),data=calib50_d15g)+
+  facet_wrap(~Simulation)
+
+alldon.prediction_calib.log<- alldon.prediction_calib+
+  scale_y_log10()+
+  annotation_logticks(side="l")+
+    coord_cartesian(ylim=c(1e-1,NA))
+
+print(alldon.prediction_calib)
+print(alldon.prediction_calib.log)
+
+ggsave(file.path(calibplotfolder,"combine.prediction_all_model.calib.pdf"), plot = alldon.prediction_calib, width=7, height=7)
+ggsave(file.path(calibplotfolder,"combine.prediction_log_all_model.calib.pdf"), plot = alldon.prediction_calib.log, width=7, height=7)
+
+```
+
+
