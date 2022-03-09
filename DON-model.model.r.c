@@ -3,7 +3,7 @@
 
    Model File:  DON-model.model.r
 
-   Date:  Tue Mar  8 21:40:31 2022
+   Date:  Wed Mar  9 11:42:53 2022
 
    Created by:  "./MCSim/mod.exe v6.1.0"
     -- a model preprocessor by Don Maszle
@@ -41,19 +41,19 @@
    31 Parameters:
      M_lnFgutabs = -0.580;
      M_lnkgutelim = -1.05;
-     M_lnkmtot = -2.26;
+     M_lnktot = -2.26;
      M_lnkmratio = 0;
-     M_lnkeD = 0.247;
+     M_lnkeDfrac = 0.247;
      SD_lnFgutabs = 0.2;
      SD_lnkgutelim = 0.2;
-     SD_lnkmtot = 0.2;
+     SD_lnktot = 0.2;
      SD_lnkmratio = 0.2;
-     SD_lnkeD = 0.2;
+     SD_lnkeDfrac = 0.2;
      lnFgutabs = 0;
      lnkgutelim = 0;
-     lnkmtot = 0;
+     lnktot = 0;
      lnkmratio = 0;
-     lnkeD = 0;
+     lnkeDfrac = 0;
      InitDose = 405.405405405405;
      ConstDoseRate = 0;
      Fgutabs = 0.56;
@@ -61,7 +61,7 @@
      kgutabs = 0.31;
      Vdist = 1.24;
      BW = 70;
-     kmtot = 0.21;
+     ktot = 0.21;
      kmratio = 1.00;
      km_d3g = 0.105;
      km_d15g = 0.105;
@@ -111,19 +111,19 @@
 /* Parameters */
 #define ID_M_lnFgutabs 0x00013
 #define ID_M_lnkgutelim 0x00014
-#define ID_M_lnkmtot 0x00015
+#define ID_M_lnktot 0x00015
 #define ID_M_lnkmratio 0x00016
-#define ID_M_lnkeD 0x00017
+#define ID_M_lnkeDfrac 0x00017
 #define ID_SD_lnFgutabs 0x00018
 #define ID_SD_lnkgutelim 0x00019
-#define ID_SD_lnkmtot 0x0001a
+#define ID_SD_lnktot 0x0001a
 #define ID_SD_lnkmratio 0x0001b
-#define ID_SD_lnkeD 0x0001c
+#define ID_SD_lnkeDfrac 0x0001c
 #define ID_lnFgutabs 0x0001d
 #define ID_lnkgutelim 0x0001e
-#define ID_lnkmtot 0x0001f
+#define ID_lnktot 0x0001f
 #define ID_lnkmratio 0x00020
-#define ID_lnkeD 0x00021
+#define ID_lnkeDfrac 0x00021
 #define ID_InitDose 0x00022
 #define ID_ConstDoseRate 0x00023
 #define ID_Fgutabs 0x00024
@@ -131,7 +131,7 @@
 #define ID_kgutabs 0x00026
 #define ID_Vdist 0x00027
 #define ID_BW 0x00028
-#define ID_kmtot 0x00029
+#define ID_ktot 0x00029
 #define ID_kmratio 0x0002a
 #define ID_km_d3g 0x0002b
 #define ID_km_d15g 0x0002c
@@ -168,19 +168,19 @@ IFN vrgInputs[1];
 /* Parameters */
 double M_lnFgutabs;
 double M_lnkgutelim;
-double M_lnkmtot;
+double M_lnktot;
 double M_lnkmratio;
-double M_lnkeD;
+double M_lnkeDfrac;
 double SD_lnFgutabs;
 double SD_lnkgutelim;
-double SD_lnkmtot;
+double SD_lnktot;
 double SD_lnkmratio;
-double SD_lnkeD;
+double SD_lnkeDfrac;
 double lnFgutabs;
 double lnkgutelim;
-double lnkmtot;
+double lnktot;
 double lnkmratio;
-double lnkeD;
+double lnkeDfrac;
 double InitDose;
 double ConstDoseRate;
 double Fgutabs;
@@ -188,7 +188,7 @@ double Fgutabs_tmp;
 double kgutabs;
 double Vdist;
 double BW;
-double kmtot;
+double ktot;
 double kmratio;
 double km_d3g;
 double km_d15g;
@@ -225,19 +225,19 @@ VMMAPSTRCT vrgvmGlo[] = {
   {"Qu_d15g_out", (PVOID) &vrgModelVars[ID_Qu_d15g_out], ID_OUTPUT | ID_Qu_d15g_out},
   {"M_lnFgutabs", (PVOID) &M_lnFgutabs, ID_PARM | ID_M_lnFgutabs},
   {"M_lnkgutelim", (PVOID) &M_lnkgutelim, ID_PARM | ID_M_lnkgutelim},
-  {"M_lnkmtot", (PVOID) &M_lnkmtot, ID_PARM | ID_M_lnkmtot},
+  {"M_lnktot", (PVOID) &M_lnktot, ID_PARM | ID_M_lnktot},
   {"M_lnkmratio", (PVOID) &M_lnkmratio, ID_PARM | ID_M_lnkmratio},
-  {"M_lnkeD", (PVOID) &M_lnkeD, ID_PARM | ID_M_lnkeD},
+  {"M_lnkeDfrac", (PVOID) &M_lnkeDfrac, ID_PARM | ID_M_lnkeDfrac},
   {"SD_lnFgutabs", (PVOID) &SD_lnFgutabs, ID_PARM | ID_SD_lnFgutabs},
   {"SD_lnkgutelim", (PVOID) &SD_lnkgutelim, ID_PARM | ID_SD_lnkgutelim},
-  {"SD_lnkmtot", (PVOID) &SD_lnkmtot, ID_PARM | ID_SD_lnkmtot},
+  {"SD_lnktot", (PVOID) &SD_lnktot, ID_PARM | ID_SD_lnktot},
   {"SD_lnkmratio", (PVOID) &SD_lnkmratio, ID_PARM | ID_SD_lnkmratio},
-  {"SD_lnkeD", (PVOID) &SD_lnkeD, ID_PARM | ID_SD_lnkeD},
+  {"SD_lnkeDfrac", (PVOID) &SD_lnkeDfrac, ID_PARM | ID_SD_lnkeDfrac},
   {"lnFgutabs", (PVOID) &lnFgutabs, ID_PARM | ID_lnFgutabs},
   {"lnkgutelim", (PVOID) &lnkgutelim, ID_PARM | ID_lnkgutelim},
-  {"lnkmtot", (PVOID) &lnkmtot, ID_PARM | ID_lnkmtot},
+  {"lnktot", (PVOID) &lnktot, ID_PARM | ID_lnktot},
   {"lnkmratio", (PVOID) &lnkmratio, ID_PARM | ID_lnkmratio},
-  {"lnkeD", (PVOID) &lnkeD, ID_PARM | ID_lnkeD},
+  {"lnkeDfrac", (PVOID) &lnkeDfrac, ID_PARM | ID_lnkeDfrac},
   {"InitDose", (PVOID) &InitDose, ID_PARM | ID_InitDose},
   {"ConstDoseRate", (PVOID) &ConstDoseRate, ID_PARM | ID_ConstDoseRate},
   {"Fgutabs", (PVOID) &Fgutabs, ID_PARM | ID_Fgutabs},
@@ -245,7 +245,7 @@ VMMAPSTRCT vrgvmGlo[] = {
   {"kgutabs", (PVOID) &kgutabs, ID_PARM | ID_kgutabs},
   {"Vdist", (PVOID) &Vdist, ID_PARM | ID_Vdist},
   {"BW", (PVOID) &BW, ID_PARM | ID_BW},
-  {"kmtot", (PVOID) &kmtot, ID_PARM | ID_kmtot},
+  {"ktot", (PVOID) &ktot, ID_PARM | ID_ktot},
   {"kmratio", (PVOID) &kmratio, ID_PARM | ID_kmratio},
   {"km_d3g", (PVOID) &km_d3g, ID_PARM | ID_km_d3g},
   {"km_d15g", (PVOID) &km_d15g, ID_PARM | ID_km_d15g},
@@ -291,19 +291,19 @@ void InitModel(void)
   vrgModelVars[ID_Qu_d15g_out] = 0.0;
   M_lnFgutabs = -0.580;
   M_lnkgutelim = -1.05;
-  M_lnkmtot = -2.26;
+  M_lnktot = -2.26;
   M_lnkmratio = 0;
-  M_lnkeD = 0.247;
+  M_lnkeDfrac = 0.247;
   SD_lnFgutabs = 0.2;
   SD_lnkgutelim = 0.2;
-  SD_lnkmtot = 0.2;
+  SD_lnktot = 0.2;
   SD_lnkmratio = 0.2;
-  SD_lnkeD = 0.2;
+  SD_lnkeDfrac = 0.2;
   lnFgutabs = 0;
   lnkgutelim = 0;
-  lnkmtot = 0;
+  lnktot = 0;
   lnkmratio = 0;
-  lnkeD = 0;
+  lnkeDfrac = 0;
   InitDose = 405.405405405405;
   ConstDoseRate = 0;
   Fgutabs = 0.56;
@@ -311,7 +311,7 @@ void InitModel(void)
   kgutabs = 0.31;
   Vdist = 1.24;
   BW = 70;
-  kmtot = 0.21;
+  ktot = 0.21;
   kmratio = 1.00;
   km_d3g = 0.105;
   km_d15g = 0.105;
@@ -361,11 +361,11 @@ void ScaleModel (PDOUBLE pdTime)
   Fgutabs = ( Fgutabs_tmp > 1 ) ? 1 : Fgutabs_tmp ;
   kgutelim = exp ( M_lnkgutelim + SD_lnkgutelim * lnkgutelim ) ;
   kgutabs = kgutelim * Fgutabs / ( 1 - Fgutabs ) ;
-  kmtot = exp ( M_lnkmtot + SD_lnkmtot * lnkmtot ) ;
+  ktot = exp ( M_lnktot + SD_lnktot * lnktot ) ;
+  keD = ktot * exp ( M_lnkeDfrac + SD_lnkeDfrac * lnkeDfrac ) ;
   kmratio = exp ( M_lnkmratio + SD_lnkmratio * lnkmratio ) ;
-  km_d3g = kmtot * kmratio / ( 1 + kmratio ) ;
-  km_d15g = kmtot / ( 1 + kmratio ) ;
-  keD = exp ( M_lnkeD + SD_lnkeD * lnkeD ) ;
+  km_d3g = ( ktot - keD ) * kmratio / ( 1 + kmratio ) ;
+  km_d15g = ( ktot - keD ) / ( 1 + kmratio ) ;
 
 } /* ScaleModel */
 

@@ -34,25 +34,25 @@ Outputs = {
 };
 
 #population mean
-M_lnFgutabs = -0.580;
+M_lnFgutabs = -0.70; # 50% absorption
 M_lnkgutelim = -1.05;
-M_lnkmtot = -2.26;
+M_lnktot = -1.20;
 M_lnkmratio = 0;
-M_lnkeD = 0.247;
+M_lnkuDfrac = -1.20;
 
 #population variance
 SD_lnFgutabs = 0.2;
 SD_lnkgutelim = 0.2;
-SD_lnkmtot = 0.2;
+SD_lnktot = 0.2;
 SD_lnkmratio = 0.2;
-SD_lnkeD = 0.2;
+SD_lnkuDfrac = 0.2;
 
 #individual log transformed, z-score
 lnFgutabs = 0;
 lnkgutelim = 0;
-lnkmtot = 0;
+lnktot = 0;
 lnkmratio = 0;
-lnkeD = 0;
+lnkuDfrac = 0;
 
 #individual parameters
 # Oral input modeling
@@ -60,8 +60,7 @@ InitDose    = 405.405405405405; # ingested input at t=0 (nmol)
 ConstDoseRate = 0; # Constant dose rate per hour (nmol/h) 
 Fgutabs    = 0.56; #fraction of gut absorption
 Fgutabs_tmp = 0.56; #set it to avoid the value larger than 1
-
-kgutabs    = 0.31; # Intestinal absorption rate (/h); kgutelim * Fgutabs/(1-Fgutabs)
+kgutabs    = 0.35; # Intestinal absorption rate (/h); kgutelim * Fgutabs/(1-Fgutabs)
 
 # Distribution volumes (L/kg)
 Vdist = 1.24;
@@ -70,12 +69,12 @@ Vdist = 1.24;
 BW = 70;
 
 # Elimination rate constants (/h)
-kmtot      = 0.21;     #total metabolic rate constant for D3GA and D15GA (nmol/h)
-kmratio    = 1.00;     #metabolic rate ratio for D3GA and D15GA (nmol/h)
+ktot      = 0.30;     #total elimination rate constant for DON urine, D3GA and D15GA (nmol/h)
+kmratio    = 1.00;     #metabolic rate ratio for D3GA and D15GA 
 km_d3g     = 0.105;    #metabolic rate constant for D3GA (nmol/h)
 km_d15g    = 0.105;    #metabolic rate constant for D15GA (nmol/h)
-keD        = 1.28;     #Excretion rate constant for DON (nmol/h)
-kgutelim   = 0.24;     #gut elimination rate
+kuD        = 0.09;     #Urinary xcretion rate constant for DON (nmol/h)
+kgutelim   = 0.35;     #gut elimination rate
 
 #GSD
 GSD_don    = 1.1;
@@ -87,19 +86,19 @@ Initialize {
   Fgutabs_tmp = exp(M_lnFgutabs + SD_lnFgutabs * lnFgutabs);
   Fgutabs = (Fgutabs_tmp > 1) ? 1 : Fgutabs_tmp;
   kgutelim = exp(M_lnkgutelim + SD_lnkgutelim * lnkgutelim);
-  kgutabs = kgutelim * Fgutabs/(1-Fgutabs);
-  kmtot = exp(M_lnkmtot + SD_lnkmtot * lnkmtot);
+  kgutabs = kgutelim * Fgutabs / (1 - Fgutabs);
+  ktot = exp(M_lnktot + SD_lnktot * lnktot);
+  kuD = ktot * exp(M_lnkuDfrac + SD_lnkuDfrac * lnkuDfrac);
   kmratio = exp(M_lnkmratio + SD_lnkmratio * lnkmratio);
-  km_d3g = kmtot * kmratio/(1+kmratio);
-  km_d15g = kmtot/(1+kmratio);
-  keD = exp(M_lnkeD + SD_lnkeD * lnkeD);
-}
+  km_d3g = (ktot - kuD) * kmratio / (1 + kmratio);
+  km_d15g = (ktot - kuD) / (1 + kmratio);
+  }
 
 Dynamics { 
   dt (Q_GI)  = ConstDoseRate - Q_GI * (kgutabs + kgutelim);
   dt (Q_fec_don) = Q_GI * kgutelim;
-  dt (Qcpt) = Q_GI * kgutabs - Qcpt * (keD + km_d3g + km_d15g);
-  dt (Qu_don) = Qcpt * keD;
+  dt (Qcpt) = Q_GI * kgutabs - Qcpt * (kuD + km_d3g + km_d15g);
+  dt (Qu_don) = Qcpt * kuD;
   dt (Qu_d3g) = Qcpt * km_d3g;
   dt (Qu_d15g) = Qcpt * km_d15g;
   dt (AUC) = Qcpt/(Vdist*BW);
@@ -109,7 +108,7 @@ CalcOutputs {
   AUC_convert = AUC*296.32*0.001*0.001; #nmol-hr/L to ug-hr/ml
   AUC_dose = AUC * BW /InitDose; #nmol-hr/L to hr-kg/L (dose in nmol/kg)
   Ccpt = Qcpt  / (Vdist*BW);
-  ExRate_don = Qcpt * keD; 
+  ExRate_don = Qcpt * kuD; 
   ExRate_d3g  = Qcpt * km_d3g;
   ExRate_d15g = Qcpt * km_d15g; 
   ExRate_don_out = (ExRate_don < 1e-15 ? 1e-15 : ExRate_don);

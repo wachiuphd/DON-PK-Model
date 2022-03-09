@@ -115,18 +115,29 @@ plot(as.mcmc.list(samps.mcmc)[,M_indx,])
 plot(as.mcmc.list(samps.mcmc)[,SD_indx,])
 plot(as.mcmc.list(samps.mcmc)[,Ln_indx,])
 parmnames <- gsub("M_","",names(samps)[M_indx])
+allindiv.df <- data.frame()
+subsampindx <- sample.int(nrow(samps),200)
 for (i in 1:length(parmnames)) {
   iparmnames <- paste0(parmnames[i],1:16,".")
   tmp.samps <- samps[,names(samps) %in% iparmnames]
   tmp.M <- samps[,rep(paste0("M_",parmnames[i]),16)]
   tmp.SD <- samps[,rep(paste0("SD_",parmnames[i]),16)]
   tmp.samps <- exp(tmp.samps*tmp.SD + tmp.M)
+  tmp.samps$iter <- 1:nrow(tmp.samps)
   tmp.df <- pivot_longer(tmp.samps,1:16)
   tmp.df$name <- factor(tmp.df$name,levels=rev(iparmnames))
   p<-ggplot(tmp.df)+geom_boxplot(aes(x=value,y=name))+
     scale_x_log10()+annotation_logticks(sides="b")
   print(p)
+  tmp.df$parm <- str_split(tmp.df$name,"\\.",simplify=TRUE)[,1]
+  tmp.df$id <- str_split(tmp.df$name,"\\.",simplify=TRUE)[,3]
+  allindiv.df <- rbind(allindiv.df,subset(tmp.df,iter %in% subsampindx))
 }
+allindiv.df.wide<-pivot_wider(allindiv.df[,-2],names_from=3)
+fillcolor <- viridis::viridis(16)
+pairs.panels(log(allindiv.df.wide[,-(1:2)]),pch=21,
+             bg=fillcolor[as.numeric(allindiv.df.wide$id)])
+
 print(rhatplot)
 dev.off()
 
