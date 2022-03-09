@@ -1523,6 +1523,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_1	1	ExRate_d15g	23.9		0.315633
 1_1	1	ExRate_d15g	24		0.310426
 
+1_1	1	AUC_dose	24		0.487428
+
 
 1_2	2	Qu_don_out	0.17	0.0506757	0.194072
 1_2	2	Qu_don_out	1.25	25.4373	6.5482
@@ -3072,6 +3074,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_2	2	ExRate_d15g	23.9		0.0303503
 1_2	2	ExRate_d15g	24		0.0296248
 
+1_2	2	AUC_dose	24		1.30603
+
 
 1_3	3	Qu_don_out	2.33	12.48	10.7849
 1_3	3	Qu_don_out	7.16	21.7425	29.8591
@@ -4591,6 +4595,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_3	3	ExRate_d15g	23.9		0.0048175
 1_3	3	ExRate_d15g	24		0.00462792
 
+1_3	3	AUC_dose	24		0.743007
+
 
 1_4	4	Qu_don_out	3.5	19.399	33.2029
 1_4	4	Qu_don_out	8.01	34.1147	46.2189
@@ -6103,6 +6109,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_4	4	ExRate_d15g	23.8		0.000837454
 1_4	4	ExRate_d15g	23.9		0.000799853
 1_4	4	ExRate_d15g	24		0.000763941
+
+1_4	4	AUC_dose	24		0.916023
 
 
 1_5	5	Qu_don_out	2.58	29.4811	26.3244
@@ -7629,6 +7637,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_5	5	ExRate_d15g	23.9		6.2595e-06
 1_5	5	ExRate_d15g	24		5.8257e-06
 
+1_5	5	AUC_dose	24		0.948102
+
 
 1_6	6	Qu_don_out	2.5	16.5583	14.3427
 1_6	6	Qu_don_out	4.2	18.7616	19.4038
@@ -9153,6 +9163,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_6	6	ExRate_d15g	23.8		2.34145e-05
 1_6	6	ExRate_d15g	23.9		2.194e-05
 1_6	6	ExRate_d15g	24		2.05582e-05
+
+1_6	6	AUC_dose	24		0.80411
 
 
 1_7	7	Qu_don_out	1.5	3.38675	3.33146
@@ -10685,6 +10697,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_7	7	ExRate_d15g	23.9		0.000307992
 1_7	7	ExRate_d15g	24		0.000292314
 
+1_7	7	AUC_dose	24		0.3279
+
 
 1_8	8	Qu_don_out	1.28	20.2563	10.2787
 1_8	8	Qu_don_out	2.57	39.4033	26.1336
@@ -12209,6 +12223,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_8	8	ExRate_d15g	23.8		0.0216851
 1_8	8	ExRate_d15g	23.9		0.0209912
 1_8	8	ExRate_d15g	24		0.0203194
+
+1_8	8	AUC_dose	24		1.93608
 
 
 1_9	9	Qu_don_out	4.9	6.69133	9.70368
@@ -13740,6 +13756,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_9	9	ExRate_d15g	23.8		0.0709381
 1_9	9	ExRate_d15g	23.9		0.069145
 1_9	9	ExRate_d15g	24		0.0673972
+
+1_9	9	AUC_dose	24		0.447298
 
 
 1_10	10	Qu_don_out	2.47	17.9645	11.9571
@@ -15278,6 +15296,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_10	10	ExRate_d15g	23.9		0.238512
 1_10	10	ExRate_d15g	24		0.233454
 
+1_10	10	AUC_dose	24		2.53258
+
 
 1_11	11	Qu_don_out	0.18	1.84718	0.953051
 1_11	11	Qu_don_out	1.5	41.032	25.181
@@ -16815,6 +16835,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_11	11	ExRate_d15g	23.9		0.00603128
 1_11	11	ExRate_d15g	24		0.00581886
 
+1_11	11	AUC_dose	24		1.56599
+
 
 1_12	12	Qu_don_out	2.33	27.7695	28.6463
 1_12	12	Qu_don_out	5.41	30.141	41.4962
@@ -18346,6 +18368,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_12	12	ExRate_d15g	23.9		0.000169703
 1_12	12	ExRate_d15g	24		0.000160663
 
+1_12	12	AUC_dose	24		1.27283
+
 
 1_13	13	Qu_don_out	3.5	38.6584	35.3335
 1_13	13	Qu_don_out	6.16	43.4561	46.0684
@@ -19870,6 +19894,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_13	13	ExRate_d15g	23.8		0.00667097
 1_13	13	ExRate_d15g	23.9		0.00644646
 1_13	13	ExRate_d15g	24		0.0062295
+
+1_13	13	AUC_dose	24		1.62778
 
 
 1_14	14	Qu_don_out	1.92	52.8537	37.3813
@@ -21402,6 +21428,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_14	14	ExRate_d15g	23.9		0.000420377
 1_14	14	ExRate_d15g	24		0.00039875
 
+1_14	14	AUC_dose	24		1.28328
+
 
 1_15	15	Qu_don_out	4.03	25.5272	23.9398
 1_15	15	Qu_don_out	8.48	30.9743	32.0369
@@ -22920,6 +22948,8 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_15	15	ExRate_d15g	23.8		0.0027404
 1_15	15	ExRate_d15g	23.9		0.00263547
 1_15	15	ExRate_d15g	24		0.00253456
+
+1_15	15	AUC_dose	24		1.11556
 
 
 1_16	16	Qu_don_out	0.5	0.0555743	0.916737
@@ -24505,5 +24535,7 @@ Level	Simulation	Output_Var	Time	Data	Prediction
 1_16	16	ExRate_d15g	23.8		0.0323854
 1_16	16	ExRate_d15g	23.9		0.0313766
 1_16	16	ExRate_d15g	24		0.0303992
+
+1_16	16	AUC_dose	24		0.919239
 
 

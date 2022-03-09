@@ -3,7 +3,7 @@
 
    Model File:  DON-model.model.r
 
-   Date:  Tue Mar  8 11:18:34 2022
+   Date:  Tue Mar  8 21:40:31 2022
 
    Created by:  "./MCSim/mod.exe v6.1.0"
     -- a model preprocessor by Don Maszle
@@ -22,10 +22,9 @@
      Qu_d15g -> 0.0;
      AUC -> 0.0;
 
-   13 Outputs:
+   12 Outputs:
      AUC_convert -> 0.0;
      AUC_dose -> 0.0;
-     DAF -> 0.0;
      Ccpt -> 0.0;
      ExRate_don -> 0.0;
      ExRate_d3g -> 0.0;
@@ -96,52 +95,51 @@
 #define ID_AUC 0x00006
 #define ID_AUC_convert 0x00007
 #define ID_AUC_dose 0x00008
-#define ID_DAF 0x00009
-#define ID_Ccpt 0x0000a
-#define ID_ExRate_don 0x0000b
-#define ID_ExRate_d3g 0x0000c
-#define ID_ExRate_d15g 0x0000d
-#define ID_ExRate_don_out 0x0000e
-#define ID_ExRate_d3g_out 0x0000f
-#define ID_ExRate_d15g_out 0x00010
-#define ID_Qu_don_out 0x00011
-#define ID_Qu_d3g_out 0x00012
-#define ID_Qu_d15g_out 0x00013
+#define ID_Ccpt 0x00009
+#define ID_ExRate_don 0x0000a
+#define ID_ExRate_d3g 0x0000b
+#define ID_ExRate_d15g 0x0000c
+#define ID_ExRate_don_out 0x0000d
+#define ID_ExRate_d3g_out 0x0000e
+#define ID_ExRate_d15g_out 0x0000f
+#define ID_Qu_don_out 0x00010
+#define ID_Qu_d3g_out 0x00011
+#define ID_Qu_d15g_out 0x00012
 
 /* Inputs */
 
 /* Parameters */
-#define ID_M_lnFgutabs 0x00014
-#define ID_M_lnkgutelim 0x00015
-#define ID_M_lnkmtot 0x00016
-#define ID_M_lnkmratio 0x00017
-#define ID_M_lnkeD 0x00018
-#define ID_SD_lnFgutabs 0x00019
-#define ID_SD_lnkgutelim 0x0001a
-#define ID_SD_lnkmtot 0x0001b
-#define ID_SD_lnkmratio 0x0001c
-#define ID_SD_lnkeD 0x0001d
-#define ID_lnFgutabs 0x0001e
-#define ID_lnkgutelim 0x0001f
-#define ID_lnkmtot 0x00020
-#define ID_lnkmratio 0x00021
-#define ID_lnkeD 0x00022
-#define ID_InitDose 0x00023
-#define ID_ConstDoseRate 0x00024
-#define ID_Fgutabs 0x00025
-#define ID_Fgutabs_tmp 0x00026
-#define ID_kgutabs 0x00027
-#define ID_Vdist 0x00028
-#define ID_BW 0x00029
-#define ID_kmtot 0x0002a
-#define ID_kmratio 0x0002b
-#define ID_km_d3g 0x0002c
-#define ID_km_d15g 0x0002d
-#define ID_keD 0x0002e
-#define ID_kgutelim 0x0002f
-#define ID_GSD_don 0x00030
-#define ID_GSD_d3g 0x00031
-#define ID_GSD_d15g 0x00032
+#define ID_M_lnFgutabs 0x00013
+#define ID_M_lnkgutelim 0x00014
+#define ID_M_lnkmtot 0x00015
+#define ID_M_lnkmratio 0x00016
+#define ID_M_lnkeD 0x00017
+#define ID_SD_lnFgutabs 0x00018
+#define ID_SD_lnkgutelim 0x00019
+#define ID_SD_lnkmtot 0x0001a
+#define ID_SD_lnkmratio 0x0001b
+#define ID_SD_lnkeD 0x0001c
+#define ID_lnFgutabs 0x0001d
+#define ID_lnkgutelim 0x0001e
+#define ID_lnkmtot 0x0001f
+#define ID_lnkmratio 0x00020
+#define ID_lnkeD 0x00021
+#define ID_InitDose 0x00022
+#define ID_ConstDoseRate 0x00023
+#define ID_Fgutabs 0x00024
+#define ID_Fgutabs_tmp 0x00025
+#define ID_kgutabs 0x00026
+#define ID_Vdist 0x00027
+#define ID_BW 0x00028
+#define ID_kmtot 0x00029
+#define ID_kmratio 0x0002a
+#define ID_km_d3g 0x0002b
+#define ID_km_d15g 0x0002c
+#define ID_keD 0x0002d
+#define ID_kgutelim 0x0002e
+#define ID_GSD_don 0x0002f
+#define ID_GSD_d3g 0x00030
+#define ID_GSD_d15g 0x00031
 
 
 /*----- Global Variables */
@@ -156,13 +154,13 @@ extern BOOL vbModelReinitd;
 
 /* Model Dimensions */
 int vnStates = 7;
-int vnOutputs = 13;
-int vnModelVars = 20;
+int vnOutputs = 12;
+int vnModelVars = 19;
 int vnInputs = 0;
 int vnParms = 31;
 
 /* States and Outputs*/
-double vrgModelVars[20];
+double vrgModelVars[19];
 
 /* Inputs */
 IFN vrgInputs[1];
@@ -215,7 +213,6 @@ VMMAPSTRCT vrgvmGlo[] = {
   {"AUC", (PVOID) &vrgModelVars[ID_AUC], ID_STATE | ID_AUC},
   {"AUC_convert", (PVOID) &vrgModelVars[ID_AUC_convert], ID_OUTPUT | ID_AUC_convert},
   {"AUC_dose", (PVOID) &vrgModelVars[ID_AUC_dose], ID_OUTPUT | ID_AUC_dose},
-  {"DAF", (PVOID) &vrgModelVars[ID_DAF], ID_OUTPUT | ID_DAF},
   {"Ccpt", (PVOID) &vrgModelVars[ID_Ccpt], ID_OUTPUT | ID_Ccpt},
   {"ExRate_don", (PVOID) &vrgModelVars[ID_ExRate_don], ID_OUTPUT | ID_ExRate_don},
   {"ExRate_d3g", (PVOID) &vrgModelVars[ID_ExRate_d3g], ID_OUTPUT | ID_ExRate_d3g},
@@ -282,7 +279,6 @@ void InitModel(void)
   vrgModelVars[ID_AUC] = 0.0;
   vrgModelVars[ID_AUC_convert] = 0.0;
   vrgModelVars[ID_AUC_dose] = 0.0;
-  vrgModelVars[ID_DAF] = 0.0;
   vrgModelVars[ID_Ccpt] = 0.0;
   vrgModelVars[ID_ExRate_don] = 0.0;
   vrgModelVars[ID_ExRate_d3g] = 0.0;
@@ -390,7 +386,6 @@ void CalcOutputs (double  rgModelVars[], double  rgDerivs[], PDOUBLE pdTime)
 
   rgModelVars[ID_AUC_convert] = rgModelVars[ID_AUC] * 296.32 * 0.001 * 0.001 ;
   rgModelVars[ID_AUC_dose] = rgModelVars[ID_AUC] * BW / InitDose ;
-  rgModelVars[ID_DAF] = 1.64 / rgModelVars[ID_AUC_dose] ;
   rgModelVars[ID_Ccpt] = rgModelVars[ID_Qcpt] / ( Vdist * BW ) ;
   rgModelVars[ID_ExRate_don] = rgModelVars[ID_Qcpt] * keD ;
   rgModelVars[ID_ExRate_d3g] = rgModelVars[ID_Qcpt] * km_d3g ;

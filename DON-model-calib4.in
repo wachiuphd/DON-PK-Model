@@ -60,8 +60,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
-    
-    
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID2
@@ -91,6 +90,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID3
@@ -117,6 +117,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID4
@@ -139,6 +140,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID5
@@ -165,6 +167,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID6
@@ -191,6 +194,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID10
@@ -217,6 +221,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID11
@@ -243,6 +248,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID13
@@ -269,6 +275,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID14
@@ -295,6 +302,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID15
@@ -321,6 +329,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID16
@@ -347,6 +356,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID17
@@ -373,6 +383,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID18
@@ -399,6 +410,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID19
@@ -425,6 +437,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
   Simulation {
     #ID20
@@ -457,6 +470,7 @@ Level { # individual
     PrintStep(ExRate_don, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
     PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    Print(AUC_dose, 24);
   }
 }
 }
