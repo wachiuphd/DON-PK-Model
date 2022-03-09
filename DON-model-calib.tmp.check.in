@@ -1,0 +1,464 @@
+#use LOD/2 for concentration 0
+Integrate (Lsodes, 1e-4, 1e-6, 1);
+
+MCMC ("MCMC.default.out","DON-model-calib.tmp.out",  # name of output and restart file
+      "",                     # name of data file
+      50000,1,                 # iterations, print predictions flag,
+      50,50000,                 # printing frequency, iters to print
+      10101010);              # random seed (default)10101010
+
+Level { # population
+  Distrib(M_lnFgutabs, Uniform, -4.605, 0);
+  Distrib(M_lnkgutelim, Normal, -1.05, 1.15);
+  Distrib(M_lnkmtot, TruncNormal, -2.26, 1.15, -4.56, 0.049);
+  Distrib(M_lnkmratio, Normal, 0, 1.15);
+  Distrib(M_lnkeD, Normal, -2.45, 1.15);
+
+  Distrib(SD_lnFgutabs, HalfNormal, 0.2);
+  Distrib(SD_lnkgutelim, HalfNormal, 0.2); 
+  Distrib(SD_lnkmtot, HalfNormal, 0.2);
+  Distrib(SD_lnkmratio, HalfNormal, 0.2);
+  Distrib(SD_lnkeD, HalfNormal, 0.2);
+
+  Distrib(GSD_don, LogUniform, 1.1, 3);
+  Distrib(GSD_d3g, LogUniform, 1.1, 3);
+  Distrib(GSD_d15g, LogUniform, 1.1, 3);
+
+  Likelihood(Data(Qu_don_out), LogNormal, Prediction(Qu_don_out), GSD_don);
+  Likelihood(Data(Qu_d3g_out), LogNormal, Prediction(Qu_d3g_out), GSD_d3g);
+  Likelihood(Data(Qu_d15g_out), LogNormal, Prediction(Qu_d15g_out), GSD_d15g);
+  
+Level { # individual
+  Distrib(lnFgutabs, Normal, 0, 1);
+  Distrib(lnkgutelim, Normal, 0, 1); 
+  Distrib(lnkmtot, Normal, 0, 1);
+  Distrib(lnkmratio, Normal, 0, 1);
+  Distrib(lnkeD, Normal, 0, 1);
+
+  Simulation {
+    #ID1
+    InitDose    = 307.4324324;    # ingested dose (mmol)
+    BW         = 91;      # body weight (kg)
+
+    #  ID_01 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 4.37, 8.28, 10.83, 15.98, 19.78, 21.72);
+    Data(Qu_don_out, 7.571807, 22.50808, 26.35084, 28.48373, 29.43013, 29.50783);
+    Data(Qu_d3g_out, 5.888969, 14.17671, 17.53199, 20.57402, 21.15482, 21.18135);
+    Data(Qu_d15g_out, 17.64487, 48.51, 60.15846, 69.00135, 69.83579, 70.8665);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 2.185, 6.325, 9.555, 13.405,
+          17.88, 20.75);
+    Data(ExRate_don_out, 1.732679045, 3.820019218, 1.506962411, 0.414153652,
+         0.24905194, 0.04005294);
+    Data(ExRate_d3g_out, 1.347590227, 2.119625706, 1.315796853, 0.590684943,
+         0.152843622, 0.013676401);
+    Data(ExRate_d15g_out, 4.037726969, 7.893895954, 4.568024431, 1.717066535,
+         0.219587893, 0.531292364);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+    
+    
+  }
+  Simulation {
+    #ID2
+    InitDose    = 225;    # ingested dose (mmol)
+    BW         = 66.6;      # body weight (kg)
+
+    #  ID_02 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 0.17, 1.25, 1.91, 5.83, 7.83, 10.3, 11, 12.06, 13.7, 22.83);
+    Data(Qu_don_out, 0.05067568, 25.43728, 35.58574, 37.05492, 39.57534, 39.6429, 40.68128, 42.12416, 42.49191, 43.24273);
+    Data(Qu_d3g_out, 0.04766949, 0.1493644, 0.8786126, 7.110064, 8.522343, 8.585902, 8.738444, 8.897343, 8.951368, 9.056241);
+    Data(Qu_d15g_out, 0.2157074, 3.194, 7.156458, 23.51926, 30.15264, 31.57213, 33.00889, 33.27372, 33.36377, 33.53855);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 0.085, 0.71, 1.58, 3.87,
+          6.83, 9.065, 10.65, 11.53, 12.88, 18.265);
+    Data(ExRate_don_out, 0.29809221, 23.50611124, 15.37646399, 0.374790619,
+         1.260207006, 0.027355291, 1.483391024, 1.361206266, 0.224242291,
+         0.08223581);
+    Data(ExRate_d3g_out, 0.280408774, 0.094161959, 1.104921544, 1.589656074,
+         0.706139154, 0.025732519, 0.217917676, 0.149904061, 0.032942332,
+         0.011486624);
+    Data(ExRate_d15g_out, 1.268867102, 2.75767808, 6.003725303, 4.174184595,
+         3.316687342, 0.574692925, 2.052521918, 0.249840102, 0.054903886,
+         0.019144374);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID3
+    InitDose    = 268.9189189;    # ingested dose (mmol)
+    BW         = 79.6;      # body weight (kg)
+
+    #  ID_03 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 2.33, 7.16, 11.83, 19.16, 24.66);
+    Data(Qu_don_out, 12.47997, 21.7425, 23.93845, 24.32375, 24.38456);
+    Data(Qu_d3g_out, 0.8848933, 5.958225, 9.187248, 11.80721, 14.88189);
+    Data(Qu_d15g_out, 31.16139, 41.21931, 43.49991, 50.24252, 52.73827);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 1.165, 4.745, 9.495, 15.495,
+          21.91);
+    Data(ExRate_don_out, 5.356211558, 1.9177083, 0.470223971, 0.05256452,
+         0.011056511);
+    Data(ExRate_d3g_out, 0.379782543, 1.0503792, 0.691439569, 0.357430385,
+         0.559032047);
+    Data(ExRate_d15g_out, 13.37398539, 2.082386149, 0.48835127, 0.919865345,
+         0.453771956);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID4
+    InitDose    = 229.3918919;    # ingested dose (mmol)
+    BW         = 67.9;      # body weight (kg)
+
+    #  ID_04 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 3.5, 8.01, 16, 23);
+    Data(Qu_don_out, 19.39898, 34.11472, 34.36134, 54.29919);
+    Data(Qu_d3g_out, 2.127241, 2.993556, 3.225548, 6.532869);
+    Data(Qu_d15g_out, 37.13314, 72.2968, 92.30822, 109.4979);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 1.75, 5.755, 12.005, 19.5);
+    Data(ExRate_don_out, 5.542565745, 3.26291421, 0.030866286, 2.848262952);
+    Data(ExRate_d3g_out, 0.607783139, 0.192087627, 0.029035235, 0.472474492);
+    Data(ExRate_d15g_out, 10.60946729, 7.796821897, 2.504558026, 2.455663594);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID5
+    InitDose    = 252.3648649;    # ingested dose (mmol)
+    BW         = 74.7;      # body weight (kg)
+
+    #  ID_05 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 2.58, 5, 8.41, 10.08, 13.75, 21.83);
+    Data(Qu_don_out, 29.48111, 32.14528, 32.23649, 32.36487, 32.4392, 32.58109);
+    Data(Qu_d3g_out, 10.27659, 22.76022, 26.10763, 34.7506, 37.53897, 37.67245);
+    Data(Qu_d15g_out, 66.08912, 146.7552, 155.8868, 156.9947, 164.0564, 164.2789);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 1.29, 3.79, 6.705, 9.245, 
+          11.915, 17.79);
+    Data(ExRate_don_out, 11.42678659, 1.100895695, 0.026749624, 0.07687328,
+         0.020251859, 0.017560878);
+    Data(ExRate_d3g_out, 3.983175869, 5.158524471, 0.981642945, 5.175435352,
+         0.759773892, 0.016519131);
+    Data(ExRate_d15g_out, 25.61593731, 33.33310296, 2.677885585, 0.663394519,
+         1.924177088, 0.027531885);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID6
+    InitDose    = 239.1891892;    # ingested dose (mmol)
+    BW         = 70.8;      # body weight (kg)
+
+    #  ID_06 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 2.5, 4.2, 7.22, 8.53, 17.8, 22.97);
+    Data(Qu_don_out, 16.55825, 18.76163, 21.0254, 21.12675, 21.2754, 21.31932);
+    Data(Qu_d3g_out, 35.03104, 41.86565, 45.59131, 49.33537, 52.47568, 52.517);
+    Data(Qu_d15g_out, 80.4098, 80.56541, 86.56693, 92.92597, 94.59635, 94.66521);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 1.25, 3.35, 5.71, 7.875,
+          13.165, 20.385);
+    Data(ExRate_don_out, 6.623301484, 1.296100894, 0.749594871, 0.077367444,
+         0.016035453, 0.008494955);
+    Data(ExRate_d3g_out, 14.01241657, 4.020358775, 1.233661236, 2.858063399,
+         0.338760862, 0.007991017);
+    Data(ExRate_d15g_out, 32.16392085, 0.091534476, 1.98725852, 4.854229392,
+         0.180191948, 0.013318362);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID10
+    InitDose    = 243.2432432;    # ingested dose (mmol)
+    BW         = 72;      # body weight (kg)
+
+    #  ID_10 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 1.5, 3.03, 6.92, 7.83, 10.16, 15.33, 22);
+    Data(Qu_don_out, 3.386749, 5.225604, 6.441971, 7.124422, 7.276449, 7.445368, 7.580503);
+    Data(Qu_d3g_out, 4.651734, 12.15529, 19.04243, 25.25681, 30.41538, 35.29254, 35.41965);
+    Data(Qu_d15g_out, 23.62263, 40.84085, 71.39802, 85.92133, 103.9881, 113.6655, 113.8773);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 0.75, 2.265, 4.975, 7.375,
+          8.995, 12.745, 18.665);
+    Data(ExRate_don_out, 2.257832863, 1.201865667, 0.312690758, 0.749946008,
+         0.065247651, 0.032672905, 0.02026014);
+    Data(ExRate_d3g_out, 3.101156228, 4.904283704, 1.77047304, 6.82899555,
+         2.21397671, 0.943356897, 0.019058267);
+    Data(ExRate_d15g_out, 15.74841774, 11.2537394, 7.855315013, 15.95967592,
+         7.753964501, 1.871837349, 0.031763779);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID11
+    InitDose    = 230.4054054;    # ingested dose (mmol)
+    BW         = 68.2;      # body weight (kg)
+
+    #  ID_11 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 1.28, 2.57, 7.37, 9.65, 17.73, 23.06);
+    Data(Qu_don_out, 20.25625, 39.4033, 52.74639, 53.4437, 53.51126, 53.54505);
+    Data(Qu_d3g_out, 1.861833, 4.819388, 8.753582, 9.171101, 9.23466, 9.26644);
+    Data(Qu_d15g_out, 17.0595, 44.26863, 74.21607, 83.07546, 87.35604, 89.47323);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 0.64, 1.925, 4.97, 8.51, 13.69,
+          20.395);
+    Data(ExRate_don_out, 15.82519891, 14.84266939, 2.779811406, 0.305834686,
+         0.008362323, 0.006338421);
+    Data(ExRate_d3g_out, 1.454556654, 2.292678953, 0.819623602, 0.183122317,
+         0.007866253, 0.005962413);
+    Data(ExRate_d15g_out, 13.32773462, 21.09234735, 6.239050565, 3.885698603,
+         0.529773918, 0.397221066);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID13
+    InitDose    = 251.6891892;    # ingested dose (mmol)
+    BW         = 74.5;      # body weight (kg)
+
+    #  ID_13 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 4.9, 8.68, 11.12, 12.67, 13.75, 14.48, 22.25);
+    Data(Qu_don_out, 6.691328, 8.0379, 10.00208, 11.22661, 11.7458, 12.34414, 13.42578);
+    Data(Qu_d3g_out, 20.71334, 23.53196, 23.65908, 23.79574, 23.87201, 23.92603, 24.08493);
+    Data(Qu_d15g_out, 54.45013, 69.21649, 71.95493, 74.09532, 74.22244, 74.31248, 79.90111);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 2.45, 6.79, 9.9, 11.895,
+          13.21, 14.115, 18.365);
+    Data(ExRate_don_out, 1.365577124, 0.356236024, 0.804991955, 0.79002174,
+         0.480728573, 0.8196403, 0.139207116);
+    Data(ExRate_d3g_out, 4.227212254, 0.745667977, 0.052097805, 0.088162931,
+         0.070621469, 0.07400743, 0.020450232);
+    Data(ExRate_d15g_out, 11.11227126, 3.90644516, 1.12231116, 1.380896969, 
+         0.117702448, 0.123345716, 0.719257705);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID14
+    InitDose    = 251.6891892;    # ingested dose (mmol)
+    BW         = 74.5;      # body weight (kg)
+
+    #  ID_14 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 2.47, 5.53, 8.83, 12.03, 14.48, 16.28, 21.62, 23.62);
+    Data(Qu_don_out, 17.96446, 53.69643, 55.63634, 56.48228, 57.19161, 57.54582, 58.2764, 58.53877);
+    Data(Qu_d3g_out, 0.05402542, 16.63041, 20.54079, 23.79943, 23.86299, 23.89477, 23.9774, 24.00918);
+    Data(Qu_d15g_out, 3.722479, 52.87922, 65.92296, 69.92684, 73.38808, 74.27448, 75.31498, 75.43506);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 1.235, 4, 7.18, 10.43, 13.255,
+          15.38, 18.95, 22.62);
+    Data(ExRate_don_out, 7.273061517, 11.67711337, 0.587850565, 0.264358112,
+         0.289521618, 0.196785592, 0.136811128, 0.131185787);
+    Data(ExRate_d3g_out, 0.021872641, 5.417119766, 1.184962138, 1.018326838,
+         0.02594258, 0.017655367, 0.015473243, 0.015889831);
+    Data(ExRate_d15g_out, 1.507076446, 16.06429342, 3.952650922, 1.251211104,
+         1.412751977, 0.492442432, 0.194849694, 0.060041029);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID15
+    InitDose    = 253.3783784;    # ingested dose (mmol)
+    BW         = 75;      # body weight (kg)
+
+    #  ID_15 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 0.18, 1.5, 3.58, 7.01, 9.33, 11.25, 16.58, 22.68);
+    Data(Qu_don_out, 1.847177, 41.032, 56.61776, 66.82858, 68.11344, 68.36026, 68.4954, 68.74878);
+    Data(Qu_d3g_out, 1.411172, 1.678121, 13.48311, 13.61022, 13.71828, 13.78501, 20.79886, 21.03721);
+    Data(Qu_d15g_out, 0.5503618, 17.24272, 38.3479, 92.57853, 93.38429, 100.0058, 117.4859, 117.8831);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 0.09, 0.84, 2.54, 5.295,
+          8.17, 10.29, 13.915, 19.63);
+    Data(ExRate_don_out, 10.26209653, 29.68547277, 7.493151505, 2.976917462,
+         0.553819501, 0.128551771, 0.025353684, 0.041537439);
+    Data(ExRate_d3g_out, 7.839842769, 0.202234206, 5.675473588, 0.037060829,
+         0.046573641, 0.034759004, 1.315919578, 0.039073354);
+    Data(ExRate_d15g_out, 3.057565463, 12.64572604, 10.1467196, 15.81068137,
+         0.347310535, 3.448690502, 3.279568557, 0.065122256);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID16
+    InitDose    = 219.5945946;    # ingested dose (mmol)
+    BW         = 65;      # body weight (kg)
+
+    #  ID_16 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 2.33, 5.41, 8.25, 10.75, 13.8, 22.92, 24);
+    Data(Qu_don_out, 27.76954, 30.14103, 40.30504, 40.36585, 40.44018, 40.64626, 40.66078);
+    Data(Qu_d3g_out, 20.00381, 27.33588, 30.71721, 30.77441, 30.84433, 31.03818, 31.05185);
+    Data(Qu_d15g_out, 88.71107, 134.3719, 141.7487, 143.9696, 144.0862, 144.4093, 144.432);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 1.165, 3.87, 6.83, 9.5, 12.275,
+          18.36, 23.46);
+    Data(ExRate_don_out, 11.91825822, 0.769964997, 3.578875636, 0.024324324,
+         0.024368631, 0.02259661, 0.013450951);
+    Data(ExRate_d3g_out, 8.585324679, 2.380542607, 1.190609108, 0.022881356,
+         0.022923034, 0.021256133, 0.012653013);
+    Data(ExRate_d15g_out, 38.07342002, 14.82493128, 2.597471782, 0.888382517,
+         0.038205057, 0.035426888, 0.021088355);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID17
+    InitDose    = 180.0675676;    # ingested dose (mmol)
+    BW         = 53.3;      # body weight (kg)
+
+    #  ID_17 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 3.5, 6.16, 9.25, 13.5, 23.16, 24);
+    Data(Qu_don_out, 38.65838, 43.45609, 44.76625, 44.83044, 46.6389, 46.64706);
+    Data(Qu_d3g_out, 8.403923, 9.441776, 9.929703, 9.990084, 13.86051, 14.11929);
+    Data(Qu_d15g_out, 38.35563, 59.20958, 64.44544, 68.54421, 68.76137, 69.61255);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 1.75, 4.83, 7.705, 11.375,
+          18.33, 23.58);
+    Data(ExRate_don_out, 11.04525096, 1.803651001, 0.424000395, 0.015103339,
+         0.18721099, 0.009710466);
+    Data(ExRate_d3g_out, 2.401120998, 0.390169941, 0.157905322, 0.014207378,
+         0.400664929, 0.308070688);
+    Data(ExRate_d15g_out, 10.9587505, 7.839833408, 1.694451048, 0.964417174,
+         0.022480437, 1.01330272);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID18
+    InitDose    = 354.7297297;    # ingested dose (mmol)
+    BW         = 105;      # body weight (kg)
+
+    #  ID_18 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 1.92, 4.83, 6, 7, 8.75, 19.25, 21.16);
+    Data(Qu_don_out, 52.85367, 89.63375, 92.73987, 92.83785, 94.45723, 94.77817, 94.93358);
+    Data(Qu_d3g_out, 12.08292, 24.08301, 25.42572, 25.51788, 30.26277, 38.03365, 38.17983);
+    Data(Qu_d15g_out, 107.359, 157.9168, 158.0492, 158.2028, 165.2137, 180.9583, 186.1998);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 0.96, 3.375, 5.415, 6.5, 7.875,
+          14, 20.205);
+    Data(ExRate_don_out, 27.52795518, 12.6392, 2.654809334, 0.097972973,
+         0.925360066, 0.030566281, 0.081364087);
+    Data(ExRate_d3g_out, 6.293187624, 4.123741682, 1.147616244, 0.092161017,
+         2.711365573, 0.74008363, 0.076537403);
+    Data(ExRate_d15g_out, 55.91612824, 17.37381676, 0.113175431, 0.153601695,
+         4.006229353, 1.499491074, 2.744227178);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID19
+    InitDose    = 180.7432432;    # ingested dose (mmol)
+    BW         = 53.5;      # body weight (kg)
+
+    #  ID_19 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 4.03, 8.48, 19.48, 22.03, 23.28);
+    Data(Qu_don_out, 25.52718, 30.97433, 32.32967, 33.7463, 33.84765);
+    Data(Qu_d3g_out, 11.44007, 11.55765, 11.65299, 11.73562, 11.83096);
+    Data(Qu_d15g_out, 46.75602, 54.22519, 56.62285, 57.28831, 57.44721);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 2.015, 6.255, 13.98, 20.755,
+          22.655);
+    Data(ExRate_don_out, 6.33428703, 1.224079077, 0.123212846, 0.555540119,
+         0.081081081);
+    Data(ExRate_d3g_out, 2.838726408, 0.026423538, 0.00866718, 0.032402792,
+         0.076271186);
+    Data(ExRate_d15g_out, 11.60198893, 1.678466608, 0.2179685, 0.260967794,
+         0.127118644);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+  Simulation {
+    #ID20
+    InitDose    = 405.405405405405;    # ingested dose (mmol)
+    BW         = 120;      # body weight (kg)
+
+    #  ID_20 
+    Print(Qu_don_out, Qu_d3g_out, Qu_d15g_out, 0.5, 1.83, 3, 3.75, 4.5, 6, 7.5, 9.5, 10.75, 11, 12, 13.5, 18.18, 20.5, 21.5, 23);
+    Data(Qu_don_out, 0.05557432, 14.46683, 29.67905, 32.24573, 38.769, 43.66862, 46.79705, 49.65682, 49.69972, 50.57438, 52.08238, 52.20063, 53.2378, 55.15363, 55.31046, 55.57496);
+    Data(Qu_d3g_out, 0.05227754, 0.7178373, 4.595046, 6.454776, 9.443276, 9.727246, 10.13565, 10.14208, 10.37319, 10.4145, 10.47393, 10.58516, 14.09083, 14.17981, 14.19475, 14.83382);
+    Data(Qu_d15g_out, 7.807057, 12.45713, 30.7841, 40.11132, 58.10214, 62.95373, 68.40383, 72.29388, 75.59223, 76.79688, 78.24732, 83.77629, 89.87271, 91.38994, 91.52149, 91.99479);
+    PrintStep(Qu_don, 0, 25, 0.1);
+    PrintStep(Qu_d3g, 0, 25, 0.1);
+    PrintStep(Qu_d15g, 0, 25, 0.1);
+    
+    Print(ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out, 0.25,1.165,2.415,3.375,4.125,5.25,6.75,8.5,10.125,
+          10.875,11.5,12.75,15.84,19.34,21,22.25);
+    Data(ExRate_don_out, 0.111148649, 10.83553211, 13.00189671, 3.42223867,
+         8.697692386, 3.266412617, 2.085618747, 1.429884454, 0.034324324,
+         3.498644833, 1.508000437, 0.078828829, 0.22161772, 0.825790831,
+         0.156830039, 0.176329681);
+    Data(ExRate_d3g_out, 0.104555085, 0.50042086, 3.31385399, 2.479639554,
+         3.984666439, 0.18931305, 0.272267102, 0.003217094, 0.184888771,
+         0.165254237, 0.059427966, 0.074152542, 0.749074651, 0.038354763,
+         0.014936441, 0.426043242);
+    Data(ExRate_d15g_out, 15.61411442, 3.496294651, 15.66408061, 12.43629178,
+         23.98776162, 3.234388066, 3.633402324, 1.945027678, 2.638677024,
+         4.818599582, 1.450444174, 3.685975328, 1.302653459, 0.65398067,
+         0.131544203, 0.315533865);
+    PrintStep(ExRate_don, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d3g, 0.00, 24.00, 0.1);
+    PrintStep(ExRate_d15g,0.00, 24.00, 0.1);
+  }
+}
+}
+
+END.

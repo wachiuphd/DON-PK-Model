@@ -3,8 +3,8 @@ Integrate (Lsodes, 1e-4, 1e-6, 1);
 
 MCMC ("MCMC.default.out","DON-model-calib1.out",  # name of output and restart file
       "",                     # name of data file
-      20,1,                 # iterations, print predictions flag,
-      20,20,                 # printing frequency, iters to print
+      50000,1,                 # iterations, print predictions flag,
+      50,50000,                 # printing frequency, iters to print
       10101010);              # random seed (default)10101010
 
 Level { # population

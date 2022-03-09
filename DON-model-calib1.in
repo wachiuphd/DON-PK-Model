@@ -3,8 +3,8 @@ Integrate (Lsodes, 1e-4, 1e-6, 1);
 
 MCMC ("MCMC.default.out","",  # name of output and restart file
       "",                     # name of data file
-      20,0,                 # iterations, print predictions flag,
-      20,20,                 # printing frequency, iters to print
+      50000,0,                 # iterations, print predictions flag,
+      50,50000,                 # printing frequency, iters to print
       11.5099187985788);              # random seed (default)11.5099187985788
 
 Level { # population

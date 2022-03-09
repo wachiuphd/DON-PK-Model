@@ -3,6 +3,8 @@ title: "DON model"
 author: "Dr. Weihsueh Chiu, En-Hsuan Lu"
 date: "2022/2/1"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}

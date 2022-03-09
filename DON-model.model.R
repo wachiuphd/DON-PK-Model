@@ -27,7 +27,7 @@ States  = {
 };  
 
 Outputs = {
-  AUC_convert, AUC_dose, DAF, Ccpt, 
+  AUC_convert, AUC_dose, Ccpt, 
   ExRate_don, ExRate_d3g, ExRate_d15g, 
   ExRate_don_out, ExRate_d3g_out, ExRate_d15g_out,
   Qu_don_out, Qu_d3g_out, Qu_d15g_out
@@ -107,8 +107,7 @@ Dynamics {
 
 CalcOutputs { 
   AUC_convert = AUC*296.32*0.001*0.001; #nmol-hr/L to ug-hr/ml
-  AUC_dose = AUC * BW /InitDose; #nmol-hr/L to ug-hr/ml
-  DAF = 1.64/AUC_dose;
+  AUC_dose = AUC * BW /InitDose; #nmol-hr/L to hr-kg/L (dose in nmol/kg)
   Ccpt = Qcpt  / (Vdist*BW);
   ExRate_don = Qcpt * keD; 
   ExRate_d3g  = Qcpt * km_d3g;
