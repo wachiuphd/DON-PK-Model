@@ -11,14 +11,14 @@ Level { # population
   Distrib(M_lnFgutabs, Uniform, -4.61, 0); # LogUniform from 0.01 to 1
   Distrib(M_lnkgutelim, Normal, -1.05, 1.15); # GM = 0.35, GSD = sqrt(10)
   Distrib(M_lnktot, Normal, -1.20, 1.15); # GM = 0.30, GSD = sqrt(10)
-  Distrib(M_lnkmratio, Normal, 0, 1.15); # GM = 1.0, GSD = sqrt(10)
+  Distrib(M_lnkmratio, Normal, 0, 2.30); # GM = 1.0, GSD = 10
   Distrib(M_lnkuDfrac, TruncNormal, -1.20, 1.15, -4.61, -0.01); # GM = 0.3, GSD = sqrt(10)
 
-  Distrib(SD_lnFgutabs, HalfNormal, 0.5);
-  Distrib(SD_lnkgutelim, HalfNormal, 0.5); 
-  Distrib(SD_lnktot, HalfNormal, 0.5);
-  Distrib(SD_lnkmratio, HalfNormal, 0.5);
-  Distrib(SD_lnkuDfrac, HalfNormal, 0.5);
+  Distrib(SD_lnFgutabs, HalfNormal, 0.7);
+  Distrib(SD_lnkgutelim, HalfNormal, 0.7); 
+  Distrib(SD_lnktot, HalfNormal, 0.7);
+  Distrib(SD_lnkmratio, HalfNormal, 0.7);
+  Distrib(SD_lnkuDfrac, HalfNormal, 0.7);
 
   Distrib(GSD_don, LogUniform, 1.1, 3);
   Distrib(GSD_d3g, LogUniform, 1.1, 3);

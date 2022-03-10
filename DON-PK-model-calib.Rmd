@@ -42,7 +42,7 @@ makemod()
 ## Model calibration
 
 ```{r Model calibration}
-set.seed(1234)
+set.seed(31415)
 model_file<- "DON-model.model.r"
 makemcsim(model_file)
 in_file_test <- "DON-model-calib.in.R" 
