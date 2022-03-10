@@ -70,10 +70,12 @@ BW = 70;
 
 # Elimination rate constants (/h)
 ktot      = 0.30;     #total elimination rate constant for DON urine, D3GA and D15GA (nmol/h)
-kmratio    = 1.00;     #metabolic rate ratio for D3GA and D15GA 
-km_d3g     = 0.105;    #metabolic rate constant for D3GA (nmol/h)
-km_d15g    = 0.105;    #metabolic rate constant for D15GA (nmol/h)
-kuD        = 0.09;     #Urinary xcretion rate constant for DON (nmol/h)
+kmratio   = 1.00;     #metabolic rate ratio for D3GA and D15GA 
+km_d3g    = 0.105;    #metabolic rate constant for D3GA (nmol/h)
+km_d15g   = 0.105;    #metabolic rate constant for D15GA (nmol/h)
+kuD       = 0.09;     #Urinary xcretion rate constant for DON (nmol/h)
+kuD_tmp   = 0.09; #set it to avoid the value geq ktot
+
 kgutelim   = 0.35;     #gut elimination rate
 
 #GSD
@@ -88,7 +90,8 @@ Initialize {
   kgutelim = exp(M_lnkgutelim + SD_lnkgutelim * lnkgutelim);
   kgutabs = kgutelim * Fgutabs / (1 - Fgutabs);
   ktot = exp(M_lnktot + SD_lnktot * lnktot);
-  kuD = ktot * exp(M_lnkuDfrac + SD_lnkuDfrac * lnkuDfrac);
+  kuD_tmp = ktot * exp(M_lnkuDfrac + SD_lnkuDfrac * lnkuDfrac);
+  kuD = (kuD_tmp > (0.99*ktot)) ? (0.99*ktot) : kuD_tmp;
   kmratio = exp(M_lnkmratio + SD_lnkmratio * lnkmratio);
   km_d3g = (ktot - kuD) * kmratio / (1 + kmratio);
   km_d15g = (ktot - kuD) / (1 + kmratio);
