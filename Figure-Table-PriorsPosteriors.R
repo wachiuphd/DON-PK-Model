@@ -6,7 +6,9 @@ library(GGally)
 library(ggpubr)
 library(psych)
 library(truncnorm)
-
+ID.calib <- read_csv(file.path("DON-data",
+                               "individual urine quantity_LODdevidedby2.csv"), T,"")
+ID <- levels(factor(ID.calib$ID))
 load("multicheck_model.calib.Rdata")
 parms.samp <- multicheck$parms.samp
 posteriors.samp <- parms.samp[,2:11]
@@ -79,3 +81,36 @@ colnames(posteriors)<-paste0("G",colnames(posteriors))
 write.csv(exp(t(priors)),file="Table-Priors.csv")
 write.csv(exp(t(posteriors)),file="Table-Posteriors.csv")
 
+M_indx <- grep("M_",names(parms.samp))
+parmnames <- gsub("M_","",names(parms.samp)[M_indx])
+allindiv.df <- data.frame()
+pindivlist <- list()
+for (i in 1:length(parmnames)) {
+  iparmnames <- paste0(parmnames[i],1:16,".")
+  names(ID)<-iparmnames
+  parmname <- gsub("ln","",parmnames[i])
+  parmname <- gsub(".1.","",parmname)
+  tmp.samps <- parms.samp[,names(parms.samp) %in% iparmnames]
+  tmp.M <- parms.samp[,rep(paste0("M_",parmnames[i]),16)]
+  tmp.SD <- parms.samp[,rep(paste0("SD_",parmnames[i]),16)]
+  tmp.samps <- exp(tmp.samps*tmp.SD + tmp.M)
+  tmp.samps$iter <- 1:nrow(tmp.samps)
+  tmp.df <- pivot_longer(tmp.samps,1:16)
+  tmp.df$ID <- factor(ID[tmp.df$name],levels=rev(ID))
+  tmp.M0 <- data.frame(x=exp(median(tmp.M[[1]])))
+  pindivlist[[i]]<-ggplot(tmp.df)+
+    geom_boxplot(aes(x=value,y=ID),outlier.shape=NA)+
+    scale_x_log10()+annotation_logticks(sides="b")+xlab("")+ylab("")+
+    labs(title = parmname)+
+    geom_vline(aes(linetype="Population GM",xintercept=x),data=tmp.M0)+
+    scale_linetype_manual("",values="dashed")+
+    theme_bw()
+  tmp.df$parm <- str_split(tmp.df$name,"\\.",simplify=TRUE)[,1]
+  tmp.df$id <- str_split(tmp.df$name,"\\.",simplify=TRUE)[,3]
+  allindiv.df <- rbind(allindiv.df,tmp.df)
+}
+
+pindiv <- ggarrange(plotlist=pindivlist,nrow=5,ncol=1,
+                    common.legend = TRUE,
+                    legend = "bottom")
+ggsave("Figure-Indiv-Posterior.pdf",pindiv,height=6,width=2.5,scale=2)
