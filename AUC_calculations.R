@@ -58,7 +58,7 @@ ggplot(AUC_dose.df)+geom_histogram(aes(x=TKVF05,y=..density..))+
   geom_line(aes(x.tkvf05,density.tkvf05),data=prior.dens)+
   geom_vline(xintercept=10^(0.5),color="red",linetype="dotted")+
   scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()
-ggsave("Figure-DON-AUC_dose.TDVF05_compare_prior.pdf",height=3,width=5)
+ggsave("Figure-DON-AUC_dose.TKVF05_compare_prior.pdf",height=3,width=5)
 
 prior.dens$x.tkvf01 <- prior.dens$x.gsd^qnorm(0.99)
 prior.dens$density.tkvf01 <- prior.dens$density.gsd/qnorm(0.99)
@@ -66,7 +66,7 @@ ggplot(AUC_dose.df)+geom_histogram(aes(x=TKVF01,y=..density..))+
   geom_line(aes(x.tkvf01,density.tkvf01),data=prior.dens)+
   geom_vline(xintercept=10^(0.5),color="red",linetype="dotted")+
   scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()
-ggsave("Figure-DON-AUC_dose.TDVF01_compare_prior.pdf",height=3,width=5)  
+ggsave("Figure-DON-AUC_dose.TKVF01_compare_prior.pdf",height=3,width=5)  
 
 ## Tabulated
 probs <- c(0.025,0.5,0.975)
@@ -118,7 +118,7 @@ ggplot(AUC_Utot.df)+geom_histogram(aes(x=TKVF05,y=..density..))+
   geom_line(aes(x.tkvf05,density.tkvf05),data=prior.dens)+
   geom_vline(xintercept=10^(0.5),color="red",linetype="dotted")+
   scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()
-ggsave("Figure-DON-AUC_Utot.TDVF05_compare_prior.pdf",height=3,width=5)
+ggsave("Figure-DON-AUC_Utot.TKVF05_compare_prior.pdf",height=3,width=5)
 
 prior.dens$x.tkvf01 <- prior.dens$x.gsd^qnorm(0.99)
 prior.dens$density.tkvf01 <- prior.dens$density.gsd/qnorm(0.99)
@@ -126,7 +126,7 @@ ggplot(AUC_Utot.df)+geom_histogram(aes(x=TKVF01,y=..density..))+
   geom_line(aes(x.tkvf01,density.tkvf01),data=prior.dens)+
   geom_vline(xintercept=10^(0.5),color="red",linetype="dotted")+
   scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()
-ggsave("Figure-DON-AUC_Utot.TDVF01_compare_prior.pdf",height=3,width=5)  
+ggsave("Figure-DON-AUC_Utot.TKVF01_compare_prior.pdf",height=3,width=5)  
 
 ## Tabulated
 probs <- c(0.025,0.5,0.975)

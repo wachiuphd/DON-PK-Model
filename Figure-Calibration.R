@@ -91,8 +91,9 @@ print(prediction_calib_d15g)
 combine.prediction_calib <- ggarrange(prediction_calib_don, 
                                       prediction_calib_d3g, 
                                       prediction_calib_d15g,
-                                      ncol = 1, nrow = 3,labels="AUTO",
-                                      common.legend = TRUE, legend="bottom")
+                                      ncol = 1, nrow = 3,labels=c("B","C","D"),
+                                      common.legend = TRUE, legend="bottom",
+                                      font.label = list(size = 18))
 print(combine.prediction_calib)
 ggsave(file.path("Figure-Calibration.pdf"), plot = combine.prediction_calib, 
        width=5, height=10,scale=1.2)

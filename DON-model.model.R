@@ -70,11 +70,12 @@ BW = 70;
 
 # Elimination rate constants (/h)
 ktot      = 0.30;     #total elimination rate constant for DON urine, D3GA and D15GA (nmol/h)
+                      #ktot = kuD + km_d3g + km_d15g
 kmratio   = 1.00;     #metabolic rate ratio for D3GA and D15GA 
 km_d3g    = 0.105;    #metabolic rate constant for D3GA (nmol/h)
 km_d15g   = 0.105;    #metabolic rate constant for D15GA (nmol/h)
-kuD       = 0.09;     #Urinary xcretion rate constant for DON (nmol/h)
-kuD_tmp   = 0.09; #set it to avoid the value geq ktot
+kuD       = 0.09;     #Urinary excretion rate constant for DON (nmol/h)
+kuD_tmp   = 0.09;     #set it to avoid the value geq ktot
 
 kgutelim   = 0.35;     #gut elimination rate
 

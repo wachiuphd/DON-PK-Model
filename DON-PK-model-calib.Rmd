@@ -34,7 +34,7 @@ ID.calib$Simulation <- as.numeric(factor(ID.calib$ID))
 ```{r MCSim}
 mdir <- "MCSim"
 source(here::here(mdir,"setup_MCSim.R"))
-#set_PATH() # For Windows
+set_PATH() # For Windows
 # Make mod.exe (used to create mcsim executable from model file)
 makemod()
 ```
