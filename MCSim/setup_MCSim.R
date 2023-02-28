@@ -2,23 +2,24 @@
 # Check the chek whether the compiler is in the PATH by using
 # Sys.getenv("PATH") 
 
-# set_PATH <- function(PATH = "c:/Rtools/mingw_32/bin"){
-#   
-#   if (Sys.info()[['sysname']] == "Windows") {
-#     if(Sys.which("gcc") == ""){ # echo $PATH
-#       Sys.setenv(PATH = paste(PATH, Sys.getenv("PATH"), sep=";"))
-#     } # PATH=$PATH:/c/Rtools/mingw_32/bin; export PATH
-#   } # PATH=$PATH:/c/MinGW/msys/1.0/local/bin
-#   
-#   # The macos used clang as default, the following command is used to switch to GCC
-#   # Sys.setenv(PATH = paste("/usr/local/bin", Sys.getenv("PATH"), sep=";"))
-#   # port select --list gcc
-#   # sudo port select --set gcc mp-gcc8
-#   
-#   # Check the GCC compiler 
-#   Sys.which("gcc")
-#   system('gcc -v')
-# }
+ set_PATH <- function(PATH = "C:\\rtools40\\mingw64\\bin; C:\\rtools40\\usr\\bin"){
+   #function(PATH = "c:/Rtools/mingw_32/bin"){
+   
+   if (Sys.info()[['sysname']] == "Windows") {
+     if(Sys.which("gcc") == ""){ # echo $PATH
+       Sys.setenv(PATH = paste(PATH, Sys.getenv("PATH"), sep=";"))
+     } # PATH=$PATH:/c/Rtools/mingw_32/bin; export PATH
+   } # PATH=$PATH:/c/MinGW/msys/1.0/local/bin
+   
+   # The macos used clang as default, the following command is used to switch to GCC
+   # Sys.setenv(PATH = paste("/usr/local/bin", Sys.getenv("PATH"), sep=";"))
+   # port select --list gcc
+   # sudo port select --set gcc mp-gcc8
+   
+   # Check the GCC compiler 
+   Sys.which("gcc")
+   system('gcc -v')
+ }
 
 makemod <- function(mdir="MCSim") {
   if(Sys.which("gcc") == ""){

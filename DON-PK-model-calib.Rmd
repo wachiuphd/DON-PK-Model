@@ -72,7 +72,8 @@ checksplot <- ggplot(subset(checks,Output_Var %in% c("Qu_d15g_out", "Qu_don_out"
   scale_x_log10()+
   scale_y_log10()+
   geom_abline(slope = 1,intercept = 0)+
-  facet_wrap(~Simulation)
+  facet_wrap(~Simulation)+
+  theme_bw()
 print(checksplot)
 ggsave(file.path(calibplotfolder,"checksplot_model.calib.pdf"), plot = checksplot, width=10, height=10)
 
@@ -81,7 +82,8 @@ checksplotlast <- ggplot(subset(checks,Output_Var %in% c("Qu_d15g_out", "Qu_don_
   scale_x_log10()+
   scale_y_log10()+
   geom_abline(slope = 1,intercept = 0)+
-  facet_wrap(~Output_Var,nrow=1)
+  facet_wrap(~Output_Var,nrow=1)+
+  theme_bw()
 print(checksplotlast)
 ggsave(file.path(calibplotfolder,"checksplot_model.calib-last.pdf"), plot = checksplotlast, width=9, height=3.5)
 

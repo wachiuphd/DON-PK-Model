@@ -14,7 +14,7 @@ Level { # population
   Distrib(M_lnkmratio, Normal, 0, 2.30); # GM = 1.0, GSD = 10
   Distrib(M_lnkuDfrac, TruncNormal, -1.20, 1.15, -4.61, -0.01); # GM = 0.3, GSD = sqrt(10)
 
-  Distrib(SD_lnFgutabs, HalfNormal, 0.7);
+  Distrib(SD_lnFgutabs, HalfNormal, 0.7); #log(2)
   Distrib(SD_lnkgutelim, HalfNormal, 0.7); 
   Distrib(SD_lnktot, HalfNormal, 0.7);
   Distrib(SD_lnkmratio, HalfNormal, 0.7);
