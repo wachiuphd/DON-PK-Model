@@ -7,7 +7,7 @@
 # ========================
 # Units:
 # Volumes: liter
-# Time:    minute
+# Time:    hour
 # Quantity:   nmol
 
 # Conversions between mg and nMol:

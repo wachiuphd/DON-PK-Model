@@ -57,7 +57,9 @@ prior.dens$density.tkvf05 <- prior.dens$density.gsd/qnorm(0.95)
 TKVF05 <- ggplot(AUC_dose.df)+geom_histogram(aes(x=TKVF05,y=..density..))+
   geom_line(aes(x.tkvf05,density.tkvf05),data=prior.dens)+
   geom_vline(xintercept=10^(0.5),color="red",linetype="dotted")+
-  scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()
+  scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()+
+  xlab(bquote(TKVF["05"]))
+print(TKVF05)
 ggsave(plot=TKVF05, "Figure-DON-AUC_dose.TKVF05_compare_prior.pdf",height=3,width=5)
 
 prior.dens$x.tkvf01 <- prior.dens$x.gsd^qnorm(0.99)
@@ -65,8 +67,14 @@ prior.dens$density.tkvf01 <- prior.dens$density.gsd/qnorm(0.99)
 TKVF01 <- ggplot(AUC_dose.df)+geom_histogram(aes(x=TKVF01,y=..density..))+
   geom_line(aes(x.tkvf01,density.tkvf01),data=prior.dens)+
   geom_vline(xintercept=10^(0.5),color="red",linetype="dotted")+
-  scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()
+  scale_x_log10(limits=c(1,50))+annotation_logticks(side="b")+theme_bw()+
+  xlab(bquote(TKVF["01"]))
+print(TKVF01)
 ggsave(plot=TKVF01, "Figure-DON-AUC_dose.TKVF01_compare_prior.pdf",height=3,width=5)  
+
+TKVF <- ggarrange(TKVF05, TKVF01, labels = c("A", "B"), ncol = 2, nrow = 1)
+ggsave("TKVF_figure.pdf", plot=TKVF, scale=0.5, width=20, height=8)
+
 
 ## Tabulated
 probs <- c(0.025,0.5,0.975)
