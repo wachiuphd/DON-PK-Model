@@ -3,7 +3,7 @@
  
 The model uses GNU MCSim v6.1.0 under R and R studio. The GNU MCSim code is provided in the MCSim directory. The main script compiles the GNU MCSim code.
 
-The MCMC simulation runs the model with 4 chains. The model parameters are provided in "DON-model.model.R"" file. The simulation settings of population and individual levels are provided in "DON-model-calib.in.R" file. The model.R and in.R files are input to perform the MCMC simulation.
+The MCMC simulation runs the model with 4 chains. The model parameters are provided in "DON-model.model.R" file. The simulation settings of population and individual levels are provided in "DON-model-calib.in.R" file. The model.R and in.R files are input to perform the MCMC simulation.
 
 # Model test
 The MCMC simulation runs one random sample, random iteration from last row of chain 4 to test the model calibration.
@@ -34,13 +34,8 @@ output:
 # Prior and posterior parameters comparison
 Prior and posterior parameter distributions are compared based on population and individual levels.
 
-input data:
-- individual urine quantity_LODdevidedby2.csv
-
-original files in repository:
-DON-data
-
 input file:
+- individual urine quantity_LODdevidedby2.csv - original files in repository: DON-data
 - multicheck_model.calib.Rdata
 
 script:
