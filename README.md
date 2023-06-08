@@ -65,7 +65,7 @@ input file:
 - multicheck_model.calib.Rdata
 
 script:
-  Figure=Calibration.R
+  Figure-Calibration.R
   
 output:
 - Figure-Calibration.pdf (manuscript Figure 3)
