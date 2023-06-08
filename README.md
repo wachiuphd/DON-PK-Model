@@ -21,15 +21,15 @@ main script:
   DON-PK-model-calib.Rmd
 
 output:
-  checksplot_model.calib.pdf (Supplementary Figure S2)
-  checksplot_model.calib-last.pdf (Supplementary Figure S2)
-  mcmc_model.calib.Rdata
-  multicheck_model.calib.Rdata
-  DiagnosticPlots_model.calib.pdf (Supplementary Figure S3)
-  combine.prediction_model.calib-tot.pdf
-  combine.prediction_log_model.calib-tot.pdf
-  combine.prediction_all_model.calib.pdf
-  combine.prediction_log_all_model.calib.pdf
+- checksplot_model.calib.pdf (Supplementary Figure S2)
+- checksplot_model.calib-last.pdf (Supplementary Figure S2)
+- mcmc_model.calib.Rdata
+- multicheck_model.calib.Rdata
+- DiagnosticPlots_model.calib.pdf (Supplementary Figure S3)
+- combine.prediction_model.calib-tot.pdf
+- combine.prediction_log_model.calib-tot.pdf
+- combine.prediction_all_model.calib.pdf
+- combine.prediction_log_all_model.calib.pdf
   
 # Prior and posterior parameters comparison
 Prior and posterior parameter distributions are compared based on population and individual levels.
@@ -47,10 +47,10 @@ script:
   Figure-Table-PriorsPosteriors.R
 
 output:
-  Figure-Prior-Posterior.pdf (Supplementary Figure S4)
-  Table-Priors.csv
-  Table-Posteriors.csv
-  Figure-Indiv-Posterior.pdf (Supplementary Figure S4)
+- Figure-Prior-Posterior.pdf (Supplementary Figure S4)
+- Table-Priors.csv
+- Table-Posteriors.csv
+- Figure-Indiv-Posterior.pdf (Supplementary Figure S4)
   
 # Posterior model prediction
 Posterior prediction for urinary excretion is visualized for each individual. The visualization plot is used to modify model calibration.
@@ -68,10 +68,10 @@ script:
   Figure=Calibration.R
   
 output:
-  Figure-Calibration.pdf (manuscript Figure 3)
+- Figure-Calibration.pdf (manuscript Figure 3)
 
 ## Human AUC calculation
-Human AUC value is derived from posterior prediction of population levels. The AUC distribution is used to calculate interspecies toxicokinetic (TK) extrapolation and intraspecies TK distribution. The AUC is also calculated based on per unit total urinary excretion.
+Human AUC value is derived from posterior prediction of population levels. The AUC distribution is used to calculate interspecies toxicokinetic (TK) extrapolation and intraspecies TK distribution.The geometric standard deviation (GSD) of AUC is used to derive toxicokinetic variability factor (TKVF). The AUC is also calculated based on per unit total urinary excretion.
 
 input file:
 - multicheck_model.calib.Rdata
@@ -80,16 +80,16 @@ script:
   AUC_calculation.R
 
 output:
-  Figure-AUC_dose-Posterior.pdf
-  AUC_dose_samples.csv
-  Figure-DON-AUC_dose.GSD_compare_prior.pdf
-  Figure-DON-AUC_dose.TKVF05_compare_prior.pdf
-  Figure-DON-AUC_dose.TKVF01_compare_prior.pdf
-  TKVF_figure.pdf (Supplementary Figure S5)
-  Table-AUC_dose_posteriors.csv
-  Figure-AUC_Utot-Posterior.pdf
-  AUC_Utot_samples.csv
-  Figure-DON-AUC_Utot.GSD_compare_prior.pdf
-  Figure-DON-AUC_Utot.TKVF05_compare_prior.pdf
-  Figure-DON-AUC_Utot.TKVF01_compare_prior.pdf
-  Table-AUC_Utot_posteriors.csv
+- Figure-AUC_dose-Posterior.pdf
+- AUC_dose_samples.csv
+- Figure-DON-AUC_dose.GSD_compare_prior.pdf
+- Figure-DON-AUC_dose.TKVF05_compare_prior.pdf
+- Figure-DON-AUC_dose.TKVF01_compare_prior.pdf
+- TKVF_figure.pdf (Supplementary Figure S5)
+- Table-AUC_dose_posteriors.csv
+- Figure-AUC_Utot-Posterior.pdf
+- AUC_Utot_samples.csv
+- Figure-DON-AUC_Utot.GSD_compare_prior.pdf
+- Figure-DON-AUC_Utot.TKVF05_compare_prior.pdf
+- Figure-DON-AUC_Utot.TKVF01_compare_prior.pdf
+- Table-AUC_Utot_posteriors.csv
