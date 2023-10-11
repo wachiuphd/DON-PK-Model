@@ -6,6 +6,7 @@ library(GGally)
 library(ggpubr)
 library(psych)
 library(truncnorm)
+
 ID.calib <- read_csv(file.path("DON-data",
                                "individual urine quantity_LODdevidedby2.csv"), T,"")
 ID <- levels(factor(ID.calib$ID))
@@ -114,3 +115,6 @@ pindiv <- ggarrange(plotlist=pindivlist,nrow=5,ncol=1,
                     common.legend = TRUE,
                     legend = "bottom")
 ggsave("Figure-Indiv-Posterior.pdf",pindiv,height=6,width=2.5,scale=2)
+
+posterior.combine <- ggarrange(pall, pindiv, ncol=2, labels = c("A","B"), widths = c(2/3,1/3))
+ggsave(posterior.combine, file="Prior-Posterior-combine.pdf", height=11, width=13)

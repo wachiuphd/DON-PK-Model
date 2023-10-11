@@ -45,7 +45,7 @@ makemod()
 set.seed(31415)
 model_file<- "DON-model.model.r"
 makemcsim(model_file)
-in_file_test <- "DON-model-calib.in.R" 
+in_file <- "DON-model-calib.in.R" 
 # Run model
 out_file <- ""
 chains <- list()
@@ -54,7 +54,7 @@ samps <- data.frame()
 samps.mcmc <- list()
 
 for (chainnum in 1:4) {
-  outtest.list <- mcsim(model_file=model_file, in_file=in_file_test, chainnum=chainnum)
+  outtest.list <- mcsim(model_file=model_file, in_file=in_file, chainnum=chainnum)
   print("Chain: "); print(chainnum)
   outcheck <- outtest.list$df_check
   outchain <- outtest.list$df_out
@@ -73,7 +73,12 @@ checksplot <- ggplot(subset(checks,Output_Var %in% c("Qu_d15g_out", "Qu_don_out"
   scale_y_log10()+
   geom_abline(slope = 1,intercept = 0)+
   facet_wrap(~Simulation)+
-  theme_bw()
+  theme_bw()+
+  xlab("Biomonitoring data")+ylab("Model prediction")+
+  theme(legend.title = element_blank())+
+  scale_color_manual(breaks=c("Qu_don_out", "Qu_d3g_out","Qu_d15g_out"),
+                     labels=c("DON","DON-3-glucuronide","DON-15-glucuronide"),
+                     values=c(`Qu_don_out`="#619CFF", `Qu_d3g_out`="#00BA38",`Qu_d15g_out`="#F8766D"))
 print(checksplot)
 ggsave(file.path(calibplotfolder,"checksplot_model.calib.pdf"), plot = checksplot, width=10, height=10)
 
@@ -82,8 +87,13 @@ checksplotlast <- ggplot(subset(checks,Output_Var %in% c("Qu_d15g_out", "Qu_don_
   scale_x_log10()+
   scale_y_log10()+
   geom_abline(slope = 1,intercept = 0)+
-  facet_wrap(~Output_Var,nrow=1)+
-  theme_bw()
+  facet_wrap(~Output_Var, nrow=1, labeller = labeller(Output_Var = c("Qu_d15g_out" = "DON-15-glucuronide", "Qu_d3g_out" = "DON-3-glucuronide", "Qu_don_out" = "DON")))+
+  theme_bw()+
+  xlab("Biomonitoring data")+ylab("Model prediction")+
+  theme(legend.title = element_blank())+
+  scale_color_manual(breaks=c("Qu_don_out", "Qu_d3g_out","Qu_d15g_out"),
+                     labels=c("DON","DON-3-glucuronide","DON-15-glucuronide"),
+                     values=c(`Qu_don_out`="#619CFF", `Qu_d3g_out`="#00BA38",`Qu_d15g_out`="#F8766D"))
 print(checksplotlast)
 ggsave(file.path(calibplotfolder,"checksplot_model.calib-last.pdf"), plot = checksplotlast, width=9, height=3.5)
 
@@ -93,7 +103,7 @@ save(samps.mcmclist, file = "mcmc_model.calib.Rdata")
 
 #multicheck
 multicheck <- mcsim.multicheck(model_file=model_file,
-                                 in_file=in_file_test, nsamp = 500)
+                                 in_file=in_file, nsamp = 500)
 save(multicheck, file="multicheck_model.calib.Rdata")
 ```
 
@@ -142,8 +152,6 @@ pairs.panels(log(allindiv.df.wide[,-(1:2)]),pch=21,
 
 print(rhatplot)
 dev.off()
-
-
 ```
 
 
@@ -260,7 +268,4 @@ print(alldon.prediction_calib.log)
 
 ggsave(file.path(calibplotfolder,"combine.prediction_all_model.calib.pdf"), plot = alldon.prediction_calib, width=7, height=7)
 ggsave(file.path(calibplotfolder,"combine.prediction_log_all_model.calib.pdf"), plot = alldon.prediction_calib.log, width=7, height=7)
-
 ```
-
-

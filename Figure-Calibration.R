@@ -51,6 +51,7 @@ prediction_calib_don <- ggplot() +
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib025_don)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib975_don)+
   ggtitle("DON")+theme_bw()+
+  ylan("DON")+
   theme(panel.grid.minor = element_blank())+
   theme(panel.grid.major = element_blank())+
   scale_linetype_manual("Prediction",values=c("solid","dashed"))+
@@ -59,12 +60,14 @@ prediction_calib_don <- ggplot() +
          linetype = guide_legend(order = 2))+
   facet_wrap(~ID)
 print(prediction_calib_don)
+
 prediction_calib_d3g <- ggplot() + 
   geom_point(aes(x=`Time (hr)`,y=`DON-3-GlcA (nmol)`,shape=" "), data=ID.calib)+
   geom_line(aes(x=Time,y=Prediction,linetype=" Median"),color="grey50",data=calib50_d3g)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib025_d3g)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib975_d3g)+
   ggtitle("DON-3-glucuronide")+theme_bw()+
+  ylab("DON-3-glucuronide")+
   theme(panel.grid.minor = element_blank())+
   theme(panel.grid.major = element_blank())+
   scale_linetype_manual("Prediction",values=c("solid","dashed"))+
@@ -73,12 +76,14 @@ prediction_calib_d3g <- ggplot() +
          linetype = guide_legend(order = 2))+
   facet_wrap(~ID)
 print(prediction_calib_d3g)
+
 prediction_calib_d15g <- ggplot() + 
   geom_point(aes(x=`Time (hr)`,y=`DON-15-GlcA (nmol)`,shape=" "), data=ID.calib)+
   geom_line(aes(x=Time,y=Prediction,linetype=" Median"),color="grey50",data=calib50_d15g)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib025_d15g)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib975_d15g)+
   ggtitle("DON-15-glucuronide")+theme_bw()+
+  ylab("DON-15-glucuronide")+
   theme(panel.grid.minor = element_blank())+
   theme(panel.grid.major = element_blank())+
   scale_linetype_manual("Prediction",values=c("solid","dashed"))+
@@ -91,7 +96,7 @@ print(prediction_calib_d15g)
 combine.prediction_calib <- ggarrange(prediction_calib_don, 
                                       prediction_calib_d3g, 
                                       prediction_calib_d15g,
-                                      ncol = 1, nrow = 3,labels=c("B","C","D"),
+                                      ncol = 1, nrow = 3,labels=c("A","B","C"),
                                       common.legend = TRUE, legend="bottom",
                                       font.label = list(size = 18))
 print(combine.prediction_calib)
