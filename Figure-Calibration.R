@@ -51,11 +51,11 @@ prediction_calib_don <- ggplot() +
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib025_don)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib975_don)+
   ggtitle("DON")+theme_bw()+
-  ylan("DON")+
+  ylab("DON in urine (nmol)")+
   theme(panel.grid.minor = element_blank())+
   theme(panel.grid.major = element_blank())+
   scale_linetype_manual("Prediction",values=c("solid","dashed"))+
-  scale_shape_manual("Data",values=16)+
+  scale_shape_manual("Data (Vidal et al. 2018)",values=16)+
   guides(shape = guide_legend(order = 1),
          linetype = guide_legend(order = 2))+
   facet_wrap(~ID)
@@ -67,11 +67,11 @@ prediction_calib_d3g <- ggplot() +
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib025_d3g)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib975_d3g)+
   ggtitle("DON-3-glucuronide")+theme_bw()+
-  ylab("DON-3-glucuronide")+
+  ylab("DON-3-glucuronide in urine (nmol)")+
   theme(panel.grid.minor = element_blank())+
   theme(panel.grid.major = element_blank())+
   scale_linetype_manual("Prediction",values=c("solid","dashed"))+
-  scale_shape_manual("Data",values=16)+
+  scale_shape_manual("Data (Vidal et al. 2018)",values=16)+
   guides(shape = guide_legend(order = 1),
          linetype = guide_legend(order = 2))+
   facet_wrap(~ID)
@@ -83,11 +83,11 @@ prediction_calib_d15g <- ggplot() +
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib025_d15g)+
   geom_line(aes(x=Time,y=Prediction,linetype="95% CI"),color="grey50",data=calib975_d15g)+
   ggtitle("DON-15-glucuronide")+theme_bw()+
-  ylab("DON-15-glucuronide")+
+  ylab("DON-15-glucuronide in urine (nmol)")+
   theme(panel.grid.minor = element_blank())+
   theme(panel.grid.major = element_blank())+
   scale_linetype_manual("Prediction",values=c("solid","dashed"))+
-  scale_shape_manual("Data",values=16)+
+  scale_shape_manual("Data (Vidal et al. 2018)",values=16)+
   guides(shape = guide_legend(order = 1),
          linetype = guide_legend(order = 2))+
   facet_wrap(~ID)

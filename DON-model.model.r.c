@@ -3,9 +3,9 @@
 
    Model File:  DON-model.model.r
 
-   Date:  Fri Oct 06 23:44:59 2023
+   Date:  Sun Oct 15 18:19:08 2023
 
-   Created by:  "C:/Users/Shren/DOCUME~1/GitHub/DON-PK~1/MCSim/mod.exe v6.1.0"
+   Created by:  "C:/Users/Shren/OneDrive/文件/GitHub/DON-PK~1/MCSim/mod.exe v6.1.0"
     -- a model preprocessor by Don Maszle
    ___________________________________________________
 
@@ -149,7 +149,7 @@
 /* For export. Keep track of who we are. */
 char szModelDescFilename[] = "DON-model.model.r";
 char szModelSourceFilename[] = __FILE__;
-char szModelGenAndVersion[] = "C:/Users/Shren/DOCUME~1/GitHub/DON-PK~1/MCSim/mod.exe v6.1.0";
+char szModelGenAndVersion[] = "C:/Users/Shren/OneDrive/文件/GitHub/DON-PK~1/MCSim/mod.exe v6.1.0";
 
 /* Externs */
 extern BOOL vbModelReinitd;
